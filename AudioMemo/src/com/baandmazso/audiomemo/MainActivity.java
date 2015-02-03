@@ -1,4 +1,4 @@
-package com.bandesznetmazso.audiomemo;
+package com.baandmazso.audiomemo;
 
 import android.app.Activity;
 import android.os.Bundle;
