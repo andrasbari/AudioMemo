@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class SinglePlayerActivity extends Activity {
+	private MediaPlayer mp;
 	private int row_count = 2;
 	private int col_count = 5;
 
@@ -50,8 +51,11 @@ public class SinglePlayerActivity extends Activity {
 	}
 
 	private void playSound(int row, int col) {
+		if (mp != null && mp.isPlaying()) {
+			mp.reset();
+			mp.release();
+		}
 		Log.d("playSound", String.valueOf(row) + " x " + String.valueOf(col));
-		MediaPlayer mp;
 		mp = MediaPlayer.create(getApplicationContext(), R.raw.sound_1khz_44100hz_16bit_05sec);
 
 		float rightVolume = (float) col / (float) col_count;
