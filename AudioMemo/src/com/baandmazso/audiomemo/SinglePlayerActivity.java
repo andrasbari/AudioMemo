@@ -19,13 +19,13 @@ import android.widget.RelativeLayout;
 
 public class SinglePlayerActivity extends Activity {
 	private MediaPlayer mp;
-	private int row_count = 2;
+	private int row_count = 3;
 	private int col_count = 5;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.table_5x2);
+		setContentView(R.layout.table_5x3);
 
 		ArrayList<LinearLayout> rows = new ArrayList<LinearLayout>();
 		ArrayList<RelativeLayout> cells = new ArrayList<RelativeLayout>();
@@ -47,7 +47,6 @@ public class SinglePlayerActivity extends Activity {
 				cells.add(cell);
 			}
 		}
-
 	}
 
 	private void playSound(int row, int col) {
