@@ -71,8 +71,45 @@ public class SinglePlayerActivity extends Activity {
 		Log.d("playSound", String.valueOf(row) + " x " + String.valueOf(col));
 		mp = MediaPlayer.create(getApplicationContext(), R.raw.sound_1khz_44100hz_16bit_05sec);
 		mp.setLooping(true);
-		float rightVolume = (float) col / (float) col_count;
-		float leftVolume = 1.0f - rightVolume;
+
+		// balansz beállítása
+		float balance = ((float) col) / ((float) col_count - 1f);
+		Log.d("balance", String.valueOf(balance));
+		float leftVolume;
+		float rightVolume;
+		if (balance > 0.5f) {
+			leftVolume = (1f - balance) * 2f;
+			rightVolume = 1f;
+		} else {
+			leftVolume = 1f;
+			rightVolume = balance * 2f;
+		}
+		Log.d("balance", "leftVolume = " + String.valueOf(leftVolume));
+		Log.d("balance", "rightVolume = " + String.valueOf(rightVolume));
+
+		// "mélység" beállítása, minél távolabb van az ikon annál halkabban szól
+		// még nem tökéletes...
+		float min_volume = 0.1f;
+		float damping_factor = 0.3f;
+		leftVolume -= leftVolume * (float) (row_count - 1 - row) * damping_factor;
+		rightVolume -= rightVolume * (float) (row_count - 1 - row) * damping_factor;
+
+		if (leftVolume < 0f) {
+			leftVolume = 0f;
+		} else if (leftVolume > 1f) {
+			leftVolume = 1f;
+		}
+
+		if (rightVolume < 0f) {
+			rightVolume = 0f;
+		} else if (rightVolume > 1f) {
+			rightVolume = 1f;
+		}
+
+		Log.d("damping", "damping_factor = " + String.valueOf(damping_factor));
+		Log.d("damping", "leftVolume = " + String.valueOf(leftVolume));
+		Log.d("damping", "rightVolume = " + String.valueOf(rightVolume));
+
 		mp.setVolume(leftVolume, rightVolume);
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
