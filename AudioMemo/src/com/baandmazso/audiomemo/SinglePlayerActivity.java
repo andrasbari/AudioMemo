@@ -90,7 +90,8 @@ public class SinglePlayerActivity extends Activity {
 		// "mélység" beállítása, minél távolabb van az ikon annál halkabban szól
 		// még nem tökéletes...
 		float min_volume = 0.1f;
-		float damping_factor = 0.3f;
+		float damping_factor = (1.0f - min_volume) * (row + 1f) / (float) row_count;
+		damping_factor = 0.3f;
 		leftVolume -= leftVolume * (float) (row_count - 1 - row) * damping_factor;
 		rightVolume -= rightVolume * (float) (row_count - 1 - row) * damping_factor;
 
