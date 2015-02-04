@@ -1,0 +1,19 @@
+package com.baandmazso.audiomemo.model;
+
+import java.util.ArrayList;
+
+public class MemoryTable {
+	private int row_count;
+	private int col_count;
+	private ArrayList<Pair> pairs = new ArrayList<Pair>();
+
+	public MemoryTable(int row_count, int col_count) throws Exception {
+		if (row_count * col_count % 2 == 0) {
+			this.row_count = row_count;
+			this.col_count = col_count;
+		} else {
+			throw new Exception("A táblán csak páros számú kártya helyezhető el!");
+		}
+	}
+
+}
