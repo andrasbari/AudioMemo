@@ -6,6 +6,62 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/tvPlayer1Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="Player1:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPlayer1Point"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPlayer1Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="75dp"
+            android:text="00:00"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPlayer2Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="Player2:"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPlayer2Point"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPlayer2Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="75dp"
+            android:text="00:00"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"

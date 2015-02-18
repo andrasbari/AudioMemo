@@ -1,8 +1,14 @@
 package com.baandmazso.audiomemo.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.baandmazso.audiomemo.R;
@@ -13,8 +19,10 @@ public class Table {
 	private int height;
 	private static final int[] audio_resources = { R.raw.sin_1khz, R.raw.click_train, R.raw.impulse1, R.raw.male_v, R.raw.whitenoise, R.raw.sq_1khz, R.raw.sin_5khz, R.raw.pinknoise, R.raw.female_oh, R.raw.sweeplin, R.raw.guitar2,
 			R.raw.violin1, R.raw.bells, R.raw.drum6, R.raw.flute, R.raw.phone2, R.raw.toytrain, R.raw.whistle_long, R.raw.drum5, R.raw.guitar8, R.raw.percussion, R.raw.chime, R.raw.kiss_kiss, R.raw.toccata };
-	private List<Pair> pairs = new ArrayList<Pair>();
+	private Map<Integer, Pair> pairs = new HashMap<Integer, Pair>();
 	private List<Card> cards = new ArrayList<Card>();
+
+	private int foundpairs = 0;
 
 	public Table(int level) throws Exception {
 		switch (level) {
@@ -73,7 +81,7 @@ public class Table {
 		int pair_count = (int) (this.width * this.height / 2);
 		for (int i = 0; i < pair_count; i++) {
 			Pair pair = new Pair(audio_resources[i]);
-			pairs.add(pair);
+			pairs.put(pair.getAudioRes(), pair);
 			cards.add(pair.getCards()[0]);
 			cards.add(pair.getCards()[1]);
 		}
@@ -88,6 +96,20 @@ public class Table {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+		}
+
+		int randcount = width * height * 10;
+		for (int i = 0; i < randcount; i++) {
+			int rand_width1 = new Random().nextInt(width);
+			int rand_height1 = new Random().nextInt(height);
+			int rand_width2 = new Random().nextInt(width);
+			int rand_height2 = new Random().nextInt(height);
+
+			try {
+				getCard(rand_height1, rand_width1).flipCards(getCard(rand_height2, rand_width2));
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -127,5 +149,12 @@ public class Table {
 			}
 		}
 		return null;
+	}
+
+	public void foundPair(int audio_res) {
+		if (pairs.containsKey(audio_res)) {
+			pairs.get(audio_res).found();
+			foundpairs++;
+		}
 	}
 }

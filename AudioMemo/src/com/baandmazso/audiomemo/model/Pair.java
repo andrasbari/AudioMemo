@@ -1,9 +1,11 @@
 package com.baandmazso.audiomemo.model;
 
+import java.util.Date;
+
 public class Pair {
 	private int audio_res = 0;
 	private Card[] cards = new Card[2];
-	private boolean found = false;
+	private Date found;
 
 	public Pair(int audio_res) {
 		this.audio_res = audio_res;
@@ -42,12 +44,12 @@ public class Pair {
 		return cards;
 	}
 
-	public boolean isFound() {
+	public Date isFound() {
 		return found;
 	}
 
-	public void setFound(boolean found) {
-		this.found = found;
+	public void found() {
+		this.found = new Date();
 	}
 
 	public int getAudioRes() {

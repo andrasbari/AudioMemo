@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.baandmazso.audiomemo.model.Card;
 import com.baandmazso.audiomemo.model.Table;
 
 import android.app.Activity;
@@ -35,6 +36,16 @@ public class SinglePlayerActivity extends Activity {
 	int col_count = 0;
 	int row_count = 0;
 
+	int player1_click1_row = -1;
+	int player1_click1_col = -1;
+	int player1_click2_row = -1;
+	int player1_click2_col = -1;
+
+	int player2_click1_row = -1;
+	int player2_click1_col = -1;
+	int player2_click2_row = -1;
+	int player2_click2_col = -1;
+
 	private ArrayList<ArrayList<RelativeLayout>> tableLayout = new ArrayList<ArrayList<RelativeLayout>>();
 
 	@Override
@@ -42,7 +53,7 @@ public class SinglePlayerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.table);
 
-		level = getIntent().getIntExtra("level", (int) 9);
+		level = getIntent().getIntExtra("level", (int) 1);
 
 		try {
 			table = new Table(level);
@@ -179,7 +190,34 @@ public class SinglePlayerActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							if (table.getCard(frow, fcol) != null) {
-								playSound(frow, fcol, table.getCard(frow, fcol).getAudioRes());
+								Card currCard = table.getCard(frow, fcol);
+								playSound(frow, fcol, currCard.getAudioRes());
+								currCard.show();
+								if (player1_click1_row < 0) {
+									player1_click1_row = frow;
+									player1_click1_col = fcol;
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+								} else if (player1_click2_row < 0) {
+									player1_click2_row = frow;
+									player1_click2_col = fcol;
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+
+									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
+											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
+										table.foundPair(currCard.getAudioRes());
+										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
+										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
+									}
+									player1_click1_row = -1;
+									player1_click1_col = -1;
+									player1_click2_row = -1;
+									player1_click2_col = -1;
+								} else {
+									player1_click1_row = -1;
+									player1_click1_col = -1;
+									player1_click2_row = -1;
+									player1_click2_col = -1;
+								}
 							}
 						}
 					});
@@ -207,7 +245,7 @@ public class SinglePlayerActivity extends Activity {
 	}
 
 	private void playSound(int row, int col, int res) {
-		//stopSound();
+		stopSound();
 		Log.d("playSound", String.valueOf(row) + " x " + String.valueOf(col));
 		mp = MediaPlayer.create(getApplicationContext(), res);
 		// mp.setLooping(true);
