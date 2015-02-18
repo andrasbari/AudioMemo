@@ -1,6 +1,11 @@
 package com.baandmazso.audiomemo;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.baandmazso.audiomemo.model.Table;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -22,55 +27,190 @@ import android.widget.RelativeLayout;
 
 public class SinglePlayerActivity extends Activity {
 	private MediaPlayer mp;
-	private int row_count = 3;
-	private int col_count = 5;
+
+	private int level;
+
+	private Table table;
+
+	int col_count = 0;
+	int row_count = 0;
+
+	private ArrayList<ArrayList<RelativeLayout>> tableLayout = new ArrayList<ArrayList<RelativeLayout>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.table_5x3);
+		setContentView(R.layout.table);
 
-		ArrayList<LinearLayout> rows = new ArrayList<LinearLayout>();
-		ArrayList<RelativeLayout> cells = new ArrayList<RelativeLayout>();
+		level = getIntent().getIntExtra("level", (int) 9);
 
-		final ViewGroup rootView = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
-		for (int i = 0; i < row_count; i++) {
-			final int i2 = i;
-			LinearLayout row = (LinearLayout) rootView.getChildAt(i);
-			rows.add(row);
-			for (int k = 0; k < col_count; k++) {
-				final int k2 = k;
-				RelativeLayout cell = (RelativeLayout) row.getChildAt(k);
-				/*
-				 * cell.setOnClickListener(new OnClickListener() {
-				 * @Override public void onClick(View v) { playSound(i2, k2); } });
-				 */
-				cell.setOnTouchListener(new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						switch (event.getAction()) {
-						case MotionEvent.ACTION_DOWN:
-							v.setBackgroundColor(Color.argb(255, 192, 64, 64));
-							playSound(i2, k2);
-							break;
-						case MotionEvent.ACTION_UP:
-							v.setBackgroundColor(Color.argb(0, 0, 0, 0));
-							stopSound();
-							break;
+		try {
+			table = new Table(level);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		RelativeLayout card_1_1 = (RelativeLayout) findViewById(R.id.card_1_1);
+		RelativeLayout card_2_1 = (RelativeLayout) findViewById(R.id.card_2_1);
+		RelativeLayout card_3_1 = (RelativeLayout) findViewById(R.id.card_3_1);
+		RelativeLayout card_4_1 = (RelativeLayout) findViewById(R.id.card_4_1);
+		RelativeLayout card_5_1 = (RelativeLayout) findViewById(R.id.card_5_1);
+		RelativeLayout card_6_1 = (RelativeLayout) findViewById(R.id.card_6_1);
+		RelativeLayout card_7_1 = (RelativeLayout) findViewById(R.id.card_7_1);
+		RelativeLayout card_8_1 = (RelativeLayout) findViewById(R.id.card_8_1);
+		ArrayList<RelativeLayout> tmpSet1 = new ArrayList<RelativeLayout>();
+		tmpSet1.add(card_1_1);
+		tmpSet1.add(card_2_1);
+		tmpSet1.add(card_3_1);
+		tmpSet1.add(card_4_1);
+		tmpSet1.add(card_5_1);
+		tmpSet1.add(card_6_1);
+		tmpSet1.add(card_7_1);
+		tmpSet1.add(card_8_1);
+		tableLayout.add(tmpSet1);
+
+		RelativeLayout card_1_2 = (RelativeLayout) findViewById(R.id.card_1_2);
+		RelativeLayout card_2_2 = (RelativeLayout) findViewById(R.id.card_2_2);
+		RelativeLayout card_3_2 = (RelativeLayout) findViewById(R.id.card_3_2);
+		RelativeLayout card_4_2 = (RelativeLayout) findViewById(R.id.card_4_2);
+		RelativeLayout card_5_2 = (RelativeLayout) findViewById(R.id.card_5_2);
+		RelativeLayout card_6_2 = (RelativeLayout) findViewById(R.id.card_6_2);
+		RelativeLayout card_7_2 = (RelativeLayout) findViewById(R.id.card_7_2);
+		RelativeLayout card_8_2 = (RelativeLayout) findViewById(R.id.card_8_2);
+		ArrayList<RelativeLayout> tmpSet2 = new ArrayList<RelativeLayout>();
+		tmpSet2.add(card_1_2);
+		tmpSet2.add(card_2_2);
+		tmpSet2.add(card_3_2);
+		tmpSet2.add(card_4_2);
+		tmpSet2.add(card_5_2);
+		tmpSet2.add(card_6_2);
+		tmpSet2.add(card_7_2);
+		tmpSet2.add(card_8_2);
+		tableLayout.add(tmpSet2);
+
+		RelativeLayout card_1_3 = (RelativeLayout) findViewById(R.id.card_1_3);
+		RelativeLayout card_2_3 = (RelativeLayout) findViewById(R.id.card_2_3);
+		RelativeLayout card_3_3 = (RelativeLayout) findViewById(R.id.card_3_3);
+		RelativeLayout card_4_3 = (RelativeLayout) findViewById(R.id.card_4_3);
+		RelativeLayout card_5_3 = (RelativeLayout) findViewById(R.id.card_5_3);
+		RelativeLayout card_6_3 = (RelativeLayout) findViewById(R.id.card_6_3);
+		RelativeLayout card_7_3 = (RelativeLayout) findViewById(R.id.card_7_3);
+		RelativeLayout card_8_3 = (RelativeLayout) findViewById(R.id.card_8_3);
+		ArrayList<RelativeLayout> tmpSet3 = new ArrayList<RelativeLayout>();
+		tmpSet3.add(card_1_3);
+		tmpSet3.add(card_2_3);
+		tmpSet3.add(card_3_3);
+		tmpSet3.add(card_4_3);
+		tmpSet3.add(card_5_3);
+		tmpSet3.add(card_6_3);
+		tmpSet3.add(card_7_3);
+		tmpSet3.add(card_8_3);
+		tableLayout.add(tmpSet3);
+
+		RelativeLayout card_1_4 = (RelativeLayout) findViewById(R.id.card_1_4);
+		RelativeLayout card_2_4 = (RelativeLayout) findViewById(R.id.card_2_4);
+		RelativeLayout card_3_4 = (RelativeLayout) findViewById(R.id.card_3_4);
+		RelativeLayout card_4_4 = (RelativeLayout) findViewById(R.id.card_4_4);
+		RelativeLayout card_5_4 = (RelativeLayout) findViewById(R.id.card_5_4);
+		RelativeLayout card_6_4 = (RelativeLayout) findViewById(R.id.card_6_4);
+		RelativeLayout card_7_4 = (RelativeLayout) findViewById(R.id.card_7_4);
+		RelativeLayout card_8_4 = (RelativeLayout) findViewById(R.id.card_8_4);
+		ArrayList<RelativeLayout> tmpSet4 = new ArrayList<RelativeLayout>();
+		tmpSet4.add(card_1_4);
+		tmpSet4.add(card_2_4);
+		tmpSet4.add(card_3_4);
+		tmpSet4.add(card_4_4);
+		tmpSet4.add(card_5_4);
+		tmpSet4.add(card_6_4);
+		tmpSet4.add(card_7_4);
+		tmpSet4.add(card_8_4);
+		tableLayout.add(tmpSet4);
+
+		RelativeLayout card_1_5 = (RelativeLayout) findViewById(R.id.card_1_5);
+		RelativeLayout card_2_5 = (RelativeLayout) findViewById(R.id.card_2_5);
+		RelativeLayout card_3_5 = (RelativeLayout) findViewById(R.id.card_3_5);
+		RelativeLayout card_4_5 = (RelativeLayout) findViewById(R.id.card_4_5);
+		RelativeLayout card_5_5 = (RelativeLayout) findViewById(R.id.card_5_5);
+		RelativeLayout card_6_5 = (RelativeLayout) findViewById(R.id.card_6_5);
+		RelativeLayout card_7_5 = (RelativeLayout) findViewById(R.id.card_7_5);
+		RelativeLayout card_8_5 = (RelativeLayout) findViewById(R.id.card_8_5);
+		ArrayList<RelativeLayout> tmpSet5 = new ArrayList<RelativeLayout>();
+		tmpSet5.add(card_1_5);
+		tmpSet5.add(card_2_5);
+		tmpSet5.add(card_3_5);
+		tmpSet5.add(card_4_5);
+		tmpSet5.add(card_5_5);
+		tmpSet5.add(card_6_5);
+		tmpSet5.add(card_7_5);
+		tmpSet5.add(card_8_5);
+		tableLayout.add(tmpSet5);
+
+		RelativeLayout card_1_6 = (RelativeLayout) findViewById(R.id.card_1_6);
+		RelativeLayout card_2_6 = (RelativeLayout) findViewById(R.id.card_2_6);
+		RelativeLayout card_3_6 = (RelativeLayout) findViewById(R.id.card_3_6);
+		RelativeLayout card_4_6 = (RelativeLayout) findViewById(R.id.card_4_6);
+		RelativeLayout card_5_6 = (RelativeLayout) findViewById(R.id.card_5_6);
+		RelativeLayout card_6_6 = (RelativeLayout) findViewById(R.id.card_6_6);
+		RelativeLayout card_7_6 = (RelativeLayout) findViewById(R.id.card_7_6);
+		RelativeLayout card_8_6 = (RelativeLayout) findViewById(R.id.card_8_6);
+		ArrayList<RelativeLayout> tmpSet6 = new ArrayList<RelativeLayout>();
+		tmpSet6.add(card_1_6);
+		tmpSet6.add(card_2_6);
+		tmpSet6.add(card_3_6);
+		tmpSet6.add(card_4_6);
+		tmpSet6.add(card_5_6);
+		tmpSet6.add(card_6_6);
+		tmpSet6.add(card_7_6);
+		tmpSet6.add(card_8_6);
+		tableLayout.add(tmpSet6);
+
+		row_count = table.getHeight();
+		col_count = table.getWidth();
+
+		for (int row = 0; row < tableLayout.size(); row++) {
+			for (int col = 0; col < tableLayout.get(row).size(); col++) {
+				RelativeLayout rl = tableLayout.get(row).get(col);
+				if (col < table.getWidth() && row < table.getHeight()) {
+					final int fcol = col;
+					final int frow = row;
+
+					rl.setVisibility(View.VISIBLE);
+					rl.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							if (table.getCard(frow, fcol) != null) {
+								playSound(frow, fcol, table.getCard(frow, fcol).getAudioRes());
+							}
 						}
-						return true;
-					}
-				});
-				cells.add(cell);
+					});
+				} else {
+					rl.setVisibility(View.GONE);
+				}
+			}
+			if (row < table.getHeight()) {
+				((View) tableLayout.get(row).get(0).getParent()).setVisibility(View.VISIBLE);
+			} else {
+				((View) tableLayout.get(row).get(0).getParent()).setVisibility(View.GONE);
 			}
 		}
+		/*
+		 * ArrayList<LinearLayout> rows = new ArrayList<LinearLayout>(); ArrayList<RelativeLayout> cells = new ArrayList<RelativeLayout>(); final ViewGroup rootView = (ViewGroup) ((ViewGroup)
+		 * this.findViewById(android.R.id.content)).getChildAt(0); for (int i = 0; i < row_count; i++) { final int i2 = i; LinearLayout row = (LinearLayout) rootView.getChildAt(i); rows.add(row); for (int k = 0; k < col_count; k++) { final
+		 * int k2 = k; RelativeLayout cell = (RelativeLayout) row.getChildAt(k); /* cell.setOnClickListener(new OnClickListener() {
+		 * @Override public void onClick(View v) { playSound(i2, k2); } });
+		 */
+		/*
+		 * cell.setOnTouchListener(new OnTouchListener() {
+		 * @Override public boolean onTouch(View v, MotionEvent event) { switch (event.getAction()) { case MotionEvent.ACTION_DOWN: v.setBackgroundColor(Color.argb(255, 192, 64, 64)); playSound(i2, k2); break; case MotionEvent.ACTION_UP:
+		 * v.setBackgroundColor(Color.argb(0, 0, 0, 0)); stopSound(); break; } return true; } }); cells.add(cell); } }
+		 */
 	}
 
-	private void playSound(int row, int col) {
-		stopSound();
+	private void playSound(int row, int col, int res) {
+		//stopSound();
 		Log.d("playSound", String.valueOf(row) + " x " + String.valueOf(col));
-		mp = MediaPlayer.create(getApplicationContext(), R.raw.sound_1khz_44100hz_16bit_05sec);
-		mp.setLooping(true);
+		mp = MediaPlayer.create(getApplicationContext(), res);
+		// mp.setLooping(true);
 
 		// balansz beállítása
 		float balance = ((float) col) / ((float) col_count - 1f);
@@ -90,8 +230,8 @@ public class SinglePlayerActivity extends Activity {
 		// "mélység" beállítása, minél távolabb van az ikon annál halkabban szól
 		// még nem tökéletes...
 		float min_volume = 0.1f;
-		float damping_factor = (1.0f - min_volume) * (row) / (float) (row_count-1);
-		//damping_factor = 0.3f;
+		float damping_factor = (1.0f - min_volume) * (row) / (float) (row_count - 1);
+		damping_factor = 0.0f;
 		leftVolume -= leftVolume * (float) (row_count - 1 - row) * damping_factor;
 		rightVolume -= rightVolume * (float) (row_count - 1 - row) * damping_factor;
 

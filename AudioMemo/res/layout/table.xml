@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/card_1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_2_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_3_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_4_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_5_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_6_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_7_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_8_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/card_1_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_2_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_3_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_4_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_5_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_6_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_7_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_8_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/card_1_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_2_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_3_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_4_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_5_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_6_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_7_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_8_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/card_1_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_2_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_3_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_4_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_5_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_6_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_7_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_8_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/card_1_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_2_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_3_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_4_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_5_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_6_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_7_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_8_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/card_1_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_2_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_3_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_4_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_5_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_6_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_7_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+
+        <include
+            android:id="@+id/card_8_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            layout="@layout/grid_item" />
+    </LinearLayout>
+
+</LinearLayout>
