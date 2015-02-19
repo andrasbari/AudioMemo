@@ -48,14 +48,9 @@ public class MainActivity extends Activity {
 				 Button level8 = (Button) dialogView.findViewById(R.id.level8);
 				 Button level9 = (Button) dialogView.findViewById(R.id.level9);
 				 
-				 dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					 @Override
-					 public void onClick(DialogInterface dialog, int which) {
-					 dialog.dismiss();
-					 }
-					 });
+				
 
-					 dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					 dialogBuilder.setNegativeButton("Mégse", new DialogInterface.OnClickListener() {
 					 @Override
 					 public void onClick(DialogInterface dialog, int which) {
 					 dialog.dismiss();
