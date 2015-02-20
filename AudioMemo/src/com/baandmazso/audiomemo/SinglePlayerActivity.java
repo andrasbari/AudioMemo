@@ -306,4 +306,10 @@ public class SinglePlayerActivity extends Activity {
 			mp = null;
 		}
 	}
+	
+	@Override
+	public void onBackPressed() {
+		mp.stop();
+		super.onBackPressed();
+	}
 }
