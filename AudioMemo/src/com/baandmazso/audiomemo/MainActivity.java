@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,10 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private Button btnSinglePlayer;
 	private Button btnMultiPlayer;
+	private ImageView questonMark;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,7 @@ public class MainActivity extends Activity {
 
 		btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
 		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
+		questonMark = (ImageView)findViewById(R.id.imageView1);
 
 		btnSinglePlayer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -184,6 +189,29 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(), MultiPlayerActivity.class);
 				startActivity(intent);
+			}
+		});
+		
+		//sugó onclick()-je
+		questonMark.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "Megnyomtam", Toast.LENGTH_SHORT).show();
+				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+				 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+				 View dialogView = inflater.inflate(R.layout.help, null);
+				 dialogBuilder.setView(dialogView);
+				
+
+				 dialogBuilder.setNegativeButton("Mégse", new DialogInterface.OnClickListener() {
+				 @Override
+				 public void onClick(DialogInterface dialog, int which) {
+				 dialog.dismiss();
+				 }
+				 });
+				 final  AlertDialog dialog =  dialogBuilder.create();
+				 dialog.show();
 			}
 		});
 	}

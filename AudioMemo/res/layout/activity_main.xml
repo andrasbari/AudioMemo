@@ -12,6 +12,8 @@
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:orientation="vertical" >
+        
+      
 
         <Button
             android:id="@+id/btnSinglePlayer"
@@ -25,5 +27,15 @@
             android:layout_height="wrap_content"
             android:text="MultiPlayer" />
     </LinearLayout>
+    
+      <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="0dp"
+        android:paddingRight="0dp"
+        android:src="@drawable/ic_question_mark_icon" />
 
 </RelativeLayout>
