@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="0dp"
+    android:layout_margin="0dp"
     android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/textView1" android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="25sp"
+            android:text="AudiMemo sugó" />
+
+        <TextView
+            android:id="@+id/textView2" android:layout_marginTop="10dp"
+            android:layout_width="fill_parent" android:textSize="14sp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Az AudieoMemo egy memória játék, de nem a szokványos fajta. Itt képek helyett az épp lejátszott hangokra kell majd emlékezned!" />
+
          <TextView
-        android:id="@+id/help_text"
+        android:id="@+id/help_text" android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="AudiMemo sugó
-        Az AudieoMemo egy memória játék, de nem a szokványos fajta. Itt képek helyett az épp lejátszott hangokra kell majd emlékezned!
-        Kalandra fel!"
+        android:text="Kalandra fel!"
         android:textSize="20sp" />
 
     </LinearLayout>
