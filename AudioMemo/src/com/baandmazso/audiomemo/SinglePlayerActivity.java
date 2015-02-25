@@ -28,18 +28,26 @@ import android.widget.RelativeLayout;
 
 public class SinglePlayerActivity extends Activity {
 	private MediaPlayer mp;
+	
+	protected static final String TAG = null;
 
 	private int level;
+	private int selected;
 
 	private Table table;
 
 	int col_count = 0;
 	int row_count = 0;
+	
 
 	int player1_click1_row = -1;
 	int player1_click1_col = -1;
 	int player1_click2_row = -1;
 	int player1_click2_col = -1;
+	int player1_prev_click1_row;
+	int player1_prev_click1_col;
+	int player1_prev_click2_row;
+	int player1_prev_click2_col;
 
 	int player2_click1_row = -1;
 	int player2_click1_col = -1;
@@ -197,10 +205,31 @@ public class SinglePlayerActivity extends Activity {
 									player1_click1_row = frow;
 									player1_click1_col = fcol;
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+									selected++;
+									
+									if(selected==3){
+										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0, 0, 0));
+										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
+										player1_prev_click1_row = player1_click1_row;
+										player1_prev_click1_col = player1_click1_col;
+										selected=1;
+									}else{
+										
+										player1_prev_click1_row = player1_click1_row;
+										player1_prev_click1_col = player1_click1_col;
+									}
+									
+									
+									
 								} else if (player1_click2_row < 0) {
 									player1_click2_row = frow;
 									player1_click2_col = fcol;
+									player1_prev_click2_row = player1_click2_row;
+									player1_prev_click2_col = player1_click2_col;
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+									selected++;
+									
+									
 
 									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
 											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
@@ -208,11 +237,13 @@ public class SinglePlayerActivity extends Activity {
 										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
 									}
+									
 									player1_click1_row = -1;
 									player1_click1_col = -1;
 									player1_click2_row = -1;
 									player1_click2_col = -1;
 								} else {
+									
 									player1_click1_row = -1;
 									player1_click1_col = -1;
 									player1_click2_row = -1;
