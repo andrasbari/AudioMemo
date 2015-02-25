@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Card {
+	public static final String TABLE_NAME = "cards";
+	
+	
 	// a res/raw mappában lévő hangfájl azonosító száma
 	private int audio_res;
 	// felfordítási szám

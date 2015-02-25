@@ -157,4 +157,8 @@ public class Table {
 			foundpairs++;
 		}
 	}
+
+	public int getFoundpairs() {
+		return foundpairs;
+	}
 }

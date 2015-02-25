@@ -25,6 +25,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class SinglePlayerActivity extends Activity {
 	private MediaPlayer mp;
@@ -229,12 +230,16 @@ public class SinglePlayerActivity extends Activity {
 									selected++;
 									
 									
-
+									// ha az első kártya klikk és a második kártya klikk nem egyezik
 									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
 											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
 										table.foundPair(currCard.getAudioRes());
 										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
+										
+										if (table.getFoundpairs() == col_count*row_count/2) {
+											Toast.makeText(getApplicationContext(), "Megtaláltad az összes párt! Gratulálok!", Toast.LENGTH_LONG).show();
+										}
 									}
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
 									tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
