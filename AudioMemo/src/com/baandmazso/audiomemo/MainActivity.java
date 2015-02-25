@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
 	private Button btnSinglePlayer;
 	private Button btnMultiPlayer;
 	private ImageView questonMark;
+	private ImageView settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class MainActivity extends Activity {
 		btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
 		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
 		questonMark = (ImageView)findViewById(R.id.imageView1);
+		settings = (ImageView) findViewById(R.id.imageView2);
 
 		btnSinglePlayer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -192,12 +194,11 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		//sugó onclick()-je
+		//sugó onClick()-je
 		questonMark.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "Megnyomtam", Toast.LENGTH_SHORT).show();
 				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 				 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
 				 View dialogView = inflater.inflate(R.layout.help, null);
@@ -212,6 +213,29 @@ public class MainActivity extends Activity {
 				 });
 				 final  AlertDialog dialog =  dialogBuilder.create();
 				 dialog.show();
+			}
+		});
+		
+		//beállítások onClick()-je
+		settings.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+				 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+				 View dialogView = inflater.inflate(R.layout.settings, null);
+				 dialogBuilder.setView(dialogView);
+				
+
+				 dialogBuilder.setNegativeButton("Mégse", new DialogInterface.OnClickListener() {
+				 @Override
+				 public void onClick(DialogInterface dialog, int which) {
+				 dialog.dismiss();
+				 }
+				 });
+				 final  AlertDialog dialog =  dialogBuilder.create();
+				 dialog.show();
+				
 			}
 		});
 	}
