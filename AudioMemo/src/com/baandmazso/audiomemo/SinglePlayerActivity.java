@@ -204,7 +204,7 @@ public class SinglePlayerActivity extends Activity {
 								if (player1_click1_row < 0) {
 									player1_click1_row = frow;
 									player1_click1_col = fcol;
-									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
 									selected++;
 									
 									if(selected==3){
@@ -226,7 +226,6 @@ public class SinglePlayerActivity extends Activity {
 									player1_click2_col = fcol;
 									player1_prev_click2_row = player1_click2_row;
 									player1_prev_click2_col = player1_click2_col;
-									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
 									selected++;
 									
 									
@@ -237,7 +236,8 @@ public class SinglePlayerActivity extends Activity {
 										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
 									}
-									
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+									tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
 									player1_click1_row = -1;
 									player1_click1_col = -1;
 									player1_click2_row = -1;
