@@ -28,6 +28,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SinglePlayerActivity extends Activity {
@@ -57,6 +58,8 @@ public class SinglePlayerActivity extends Activity {
 	int player2_click1_col = -1;
 	int player2_click2_row = -1;
 	int player2_click2_col = -1;
+	
+	int flippedCards=0;
 
 	private ArrayList<ArrayList<RelativeLayout>> tableLayout = new ArrayList<ArrayList<RelativeLayout>>();
 
@@ -72,6 +75,8 @@ public class SinglePlayerActivity extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 
 		RelativeLayout card_1_1 = (RelativeLayout) findViewById(R.id.card_1_1);
 		RelativeLayout card_2_1 = (RelativeLayout) findViewById(R.id.card_2_1);
@@ -210,6 +215,7 @@ public class SinglePlayerActivity extends Activity {
 									player1_click1_col = fcol;
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
 									selected++;
+									flippedCards++;
 									
 									if(selected==3){
 										if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
@@ -239,7 +245,7 @@ public class SinglePlayerActivity extends Activity {
 											selected=1;
 										}
 									}else{
-										//tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
+										
 										player1_prev_click1_row = player1_click1_row;
 										player1_prev_click1_col = player1_click1_col;
 									}
@@ -252,6 +258,7 @@ public class SinglePlayerActivity extends Activity {
 									player1_prev_click2_row = player1_click2_row;
 									player1_prev_click2_col = player1_click2_col;
 									selected++;
+									flippedCards++;
 									
 									
 									// ha az első kártya klikk és a második kártya klikk nem egyezik
@@ -267,7 +274,10 @@ public class SinglePlayerActivity extends Activity {
 											 LayoutInflater inflater = SinglePlayerActivity.this.getLayoutInflater();
 											 View dialogView = inflater.inflate(R.layout.game_finish, null);
 											 dialogBuilder.setView(dialogView);
-											
+											 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
+											 flippedCard.setText(String.valueOf(flippedCards));
+											 
+											 
 
 											 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 											 @Override
@@ -275,6 +285,7 @@ public class SinglePlayerActivity extends Activity {
 												 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 												 startActivity(intent); 
 												 dialog.dismiss();
+												 finish();
 											 }
 											 });
 											 final  AlertDialog dialog =  dialogBuilder.create();
