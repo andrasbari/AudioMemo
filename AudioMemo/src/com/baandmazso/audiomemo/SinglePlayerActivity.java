@@ -9,6 +9,9 @@ import com.baandmazso.audiomemo.model.Card;
 import com.baandmazso.audiomemo.model.Table;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -238,7 +241,23 @@ public class SinglePlayerActivity extends Activity {
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
 										
 										if (table.getFoundpairs() == col_count*row_count/2) {
-											Toast.makeText(getApplicationContext(), "Megtaláltad az összes párt! Gratulálok!", Toast.LENGTH_LONG).show();
+										
+											AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SinglePlayerActivity.this);
+											 LayoutInflater inflater = SinglePlayerActivity.this.getLayoutInflater();
+											 View dialogView = inflater.inflate(R.layout.game_finish, null);
+											 dialogBuilder.setView(dialogView);
+											
+
+											 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+											 @Override
+											 public void onClick(DialogInterface dialog, int which) {
+												 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+												 startActivity(intent); 
+												 dialog.dismiss();
+											 }
+											 });
+											 final  AlertDialog dialog =  dialogBuilder.create();
+											 dialog.show();
 										}
 									}
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
