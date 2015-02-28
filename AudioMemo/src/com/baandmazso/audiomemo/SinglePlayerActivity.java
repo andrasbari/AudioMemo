@@ -212,13 +212,34 @@ public class SinglePlayerActivity extends Activity {
 									selected++;
 									
 									if(selected==3){
-										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0, 0, 0));
-										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
-										player1_prev_click1_row = player1_click1_row;
-										player1_prev_click1_col = player1_click1_col;
-										selected=1;
-									}else{
+										if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
+											tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
+											tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
+											
+											player1_prev_click1_row = player1_click1_row;
+											player1_prev_click1_col = player1_click1_col;
+											
+											selected=1;
 										
+										}else if(((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))){
+											tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118,118,118));
+											tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
+											
+											player1_prev_click1_row = player1_click1_row;
+											player1_prev_click1_col = player1_click1_col;
+											
+											selected=1;
+										}else{
+											tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
+											tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
+											
+											player1_prev_click1_row = player1_click1_row;
+											player1_prev_click1_col = player1_click1_col;
+											
+											selected=1;
+										}
+									}else{
+										//tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
 										player1_prev_click1_row = player1_click1_row;
 										player1_prev_click1_col = player1_click1_col;
 									}
