@@ -1,9 +1,13 @@
 package com.baandmazso.audiomemo;
 
+
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.baandmazso.audiomemo.model.Card;
 import com.baandmazso.audiomemo.model.Table;
@@ -17,6 +21,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +30,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,6 +74,8 @@ public class SinglePlayerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.table);
+		
+		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
 		level = getIntent().getIntExtra("level", (int) 1);
 
@@ -265,8 +274,17 @@ public class SinglePlayerActivity extends Activity {
 									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
 											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
 										table.foundPair(currCard.getAudioRes());
+										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
+										tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
+										
+										tableLayout.get(player1_click1_row).get(player1_click1_col).startAnimation(animAlpha);
+										tableLayout.get(player1_click2_row).get(player1_click2_col).startAnimation(animAlpha);
+										
 										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
+					
+										        	
+
 										
 										if (table.getFoundpairs() == col_count*row_count/2) {
 										
@@ -276,6 +294,7 @@ public class SinglePlayerActivity extends Activity {
 											 dialogBuilder.setView(dialogView);
 											 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
 											 flippedCard.setText(String.valueOf(flippedCards));
+											 mp.stop();
 											 
 											 
 
@@ -291,9 +310,10 @@ public class SinglePlayerActivity extends Activity {
 											 final  AlertDialog dialog =  dialogBuilder.create();
 											 dialog.show();
 										}
-									}
+									}else{
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
 									tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
+									}
 									player1_click1_row = -1;
 									player1_click1_col = -1;
 									player1_click2_row = -1;
