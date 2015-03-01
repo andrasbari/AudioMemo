@@ -416,7 +416,7 @@ public class SinglePlayerActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		mp.stop();
+		stopSound();
 		super.onBackPressed();
 	}
 }
