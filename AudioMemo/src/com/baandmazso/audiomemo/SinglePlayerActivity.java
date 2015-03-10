@@ -301,8 +301,8 @@ public class SinglePlayerActivity extends Activity {
 											 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 											 @Override
 											 public void onClick(DialogInterface dialog, int which) {
-												 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-												 startActivity(intent); 
+												 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+												 startActivity(intent);*/ 
 												 dialog.dismiss();
 												 finish();
 											 }

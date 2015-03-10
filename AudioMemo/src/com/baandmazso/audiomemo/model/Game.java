@@ -1,8 +1,10 @@
 package com.baandmazso.audiomemo.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.baandmazso.audiomemo.R;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -17,6 +19,7 @@ import android.widget.RelativeLayout;
 public class Game {
 	private Context context;
 	private MediaPlayer mp;
+	
 	private int level = 1;
 	private int player_count = 1;
 	private Table table;
@@ -24,7 +27,7 @@ public class Game {
 	int row_count = 0;
 	private ArrayList<ArrayList<ImageView>> tableLayout = new ArrayList<ArrayList<ImageView>>();
 
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private List<Player> players = new ArrayList<Player>();
 	private int current_player = 0;
 	private int current_round = 0;
 	private int shown_cards = 0;
