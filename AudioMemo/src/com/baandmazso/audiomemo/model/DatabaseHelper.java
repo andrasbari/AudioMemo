@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -12,7 +13,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-	public static final int DATABASE_VERSION = 17;
+	public static final int DATABASE_VERSION = 31;
 
 	private Context context;
 
@@ -25,18 +26,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public DatabaseHelper(Context context) {
 		super(context, context.getExternalFilesDir("") + File.separator + "audiomemo.sqlite3", null, DATABASE_VERSION);
+		Log.d("sqlite path", context.getExternalFilesDir("") + File.separator + "audiomemo.sqlite3");
 		this.setContext(context);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
+			Log.d("DatabaseHelper", "onCreate");
+			TableUtils.createTable(connectionSource, Table.class);
 			TableUtils.createTable(connectionSource, Card.class);
 			TableUtils.createTable(connectionSource, Game.class);
-			TableUtils.createTable(connectionSource, MemoryTable.class);
-			TableUtils.createTable(connectionSource, Pair.class);
 			TableUtils.createTable(connectionSource, Player.class);
-			TableUtils.createTable(connectionSource, Table.class);
+			//TableUtils.createTable(connectionSource, MemoryTable.class);
+			TableUtils.createTable(connectionSource, Pair.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,9 +48,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
+			Log.d("DatabaseHelper", "onUpgrade");
 			TableUtils.dropTable(connectionSource, Card.class, true);
 			TableUtils.dropTable(connectionSource, Game.class, true);
-			TableUtils.dropTable(connectionSource, MemoryTable.class, true);
+			//TableUtils.dropTable(connectionSource, MemoryTable.class, true);
 			TableUtils.dropTable(connectionSource, Pair.class, true);
 			TableUtils.dropTable(connectionSource, Player.class, true);
 			TableUtils.dropTable(connectionSource, Table.class, true);
@@ -85,14 +89,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return PairDao;
 	}
 
-	public Dao<Player, Integer> getDomainDao() throws SQLException {
+	public Dao<Player, Integer> getPlayerDao() throws SQLException {
 		if (PlayerDao == null) {
 			PlayerDao = getDao(Player.class);
 		}
 		return PlayerDao;
 	}
 
-	public Dao<Table, Integer> getRegistrarDao() throws SQLException {
+	public Dao<Table, Integer> getTableDao() throws SQLException {
 		if (TableDao == null) {
 			TableDao = getDao(Table.class);
 		}

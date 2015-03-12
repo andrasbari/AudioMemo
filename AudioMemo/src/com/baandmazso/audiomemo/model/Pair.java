@@ -1,14 +1,38 @@
 package com.baandmazso.audiomemo.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Pair {
-	private int audio_res = 0;
-	private Card card1 = new Card();
-	private Card card2 = new Card();
-	//private Card[] cards = new Card[2];
-	private Date found;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+// alapvetően nem kell!!!!!!!!!
+@DatabaseTable(tableName = Pair.TABLE_NAME)
+public class Pair implements Serializable {
+	public static final String TABLE_NAME = "pairs";
+	public static final String FIELD_ID = "id";
+	public static final String FIELD_AUDIO_RES = "audio_res";
+	public static final String FIELD_CARD1 = "card1";
+	public static final String FIELD_CARD2 = "card2";
+	public static final String FIELD_FOUND = "found";
+	
+	@DatabaseField(columnName = FIELD_ID, generatedId = true)
+	private int id = 0;
+	@DatabaseField(columnName = FIELD_AUDIO_RES)
+	private int audio_res = 0;
+	@DatabaseField(columnName = FIELD_CARD1, foreign=true)
+	private Card card1 = new Card();
+	@DatabaseField(columnName = FIELD_CARD2, foreign=true)
+	private Card card2 = new Card();
+	@DatabaseField(columnName = FIELD_FOUND)
+	private Date found;
+	@DatabaseField(foreign = true)
+	private Player player;
+
+	public Pair() {
+		
+	}
+	
 	public Pair(int audio_res) {
 		this.audio_res = audio_res;
 		card1 = new Card(audio_res);

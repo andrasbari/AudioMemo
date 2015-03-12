@@ -2,6 +2,7 @@ package com.baandmazso.audiomemo;
 
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -10,7 +11,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.baandmazso.audiomemo.model.Card;
+import com.baandmazso.audiomemo.model.DataManager;
+import com.baandmazso.audiomemo.model.DatabaseHelper;
+import com.baandmazso.audiomemo.model.Pair;
 import com.baandmazso.audiomemo.model.Table;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,6 +45,7 @@ import android.widget.Toast;
 
 public class SinglePlayerActivity extends Activity {
 	private MediaPlayer mp;
+	private DataManager dm;
 	
 	protected static final String TAG = null;
 
@@ -75,12 +81,30 @@ public class SinglePlayerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.table);
 		
+		dm = DataManager.getInstance(getApplicationContext());
+		try {
+			OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class).getCardDao();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
 		level = getIntent().getIntExtra("level", (int) 1);
 
 		try {
 			table = new Table(level);
+			dm.getDatabaseHelper().getTableDao().createOrUpdate(table);
+			ArrayList<Card> cards = (ArrayList<Card>) table.getCards();
+			for (Card card : cards) {
+				card.setTable(table);
+				try {
+					dm.getDatabaseHelper().getCardDao().createOrUpdate(card);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -273,7 +297,7 @@ public class SinglePlayerActivity extends Activity {
 									// ha az első kártya klikk és a második kártya klikk nem egyezik
 									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
 											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
-										table.foundPair(currCard.getAudioRes());
+										table.foundPair(new Pair(currCard.getAudioRes()));
 										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
 										

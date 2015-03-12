@@ -11,7 +11,7 @@ import com.j256.ormlite.dao.Dao.CreateOrUpdateStatus;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 public class DataManager {
-	public static final String SHAREDPREF_NAME = "domainfinder";
+	public static final String SHAREDPREF_NAME = "audiomemo";
 	private static DataManager dm = null;
 	private Context context = null;
 	private SharedPreferences sharedpref = null;

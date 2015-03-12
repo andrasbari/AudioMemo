@@ -1,12 +1,17 @@
 package com.baandmazso.audiomemo.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MemoryTable {
+public class MemoryTable implements Serializable {
 	private int row_count;
 	private int col_count;
 	private ArrayList<Pair> pairs = new ArrayList<Pair>();
 
+	public MemoryTable() {
+		
+	}
+	
 	public MemoryTable(int row_count, int col_count) throws Exception {
 		if (row_count * col_count % 2 == 0) {
 			this.row_count = row_count;
