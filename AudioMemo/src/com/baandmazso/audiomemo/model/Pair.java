@@ -9,6 +9,10 @@ import com.j256.ormlite.table.DatabaseTable;
 // alapvetően nem kell!!!!!!!!!
 @DatabaseTable(tableName = Pair.TABLE_NAME)
 public class Pair implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6319931442147516982L;
 	public static final String TABLE_NAME = "pairs";
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_AUDIO_RES = "audio_res";
@@ -21,13 +25,15 @@ public class Pair implements Serializable {
 	@DatabaseField(columnName = FIELD_AUDIO_RES)
 	private int audio_res = 0;
 	@DatabaseField(columnName = FIELD_CARD1, foreign=true)
-	private Card card1 = new Card();
+	private Card card1;
 	@DatabaseField(columnName = FIELD_CARD2, foreign=true)
-	private Card card2 = new Card();
+	private Card card2;
 	@DatabaseField(columnName = FIELD_FOUND)
 	private Date found;
 	@DatabaseField(foreign = true)
 	private Player player;
+	@DatabaseField(foreign = true)
+	private Table table = null;
 
 	public Pair() {
 		
@@ -84,5 +90,21 @@ public class Pair implements Serializable {
 
 	public int getAudioRes() {
 		return audio_res;
+	}
+
+	public Card getCard1() {
+		return card1;
+	}
+
+	public Card getCard2() {
+		return card2;
+	}
+
+	public Table getTable() {
+		return table;
+	}
+
+	public void setTable(Table table) {
+		this.table = table;
 	}
 }

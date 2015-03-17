@@ -11,6 +11,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = Card.TABLE_NAME)
 public class Card implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5574053712464115196L;
 	public static final String TABLE_NAME = "cards";
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_AUDIO_RES = "audio_res";

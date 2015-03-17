@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import com.baandmazso.audiomemo.model.Card;
 import com.baandmazso.audiomemo.model.DataManager;
 import com.baandmazso.audiomemo.model.DatabaseHelper;
+import com.baandmazso.audiomemo.model.Game;
 import com.baandmazso.audiomemo.model.Pair;
 import com.baandmazso.audiomemo.model.Table;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -52,12 +53,11 @@ public class NewSinglePlayerActivity extends Activity {
 	private int level;
 	private int selected;
 
-	private Table table;
+	private Game game;
 
 	int col_count = 0;
 	int row_count = 0;
 	
-
 	int player1_click1_row = -1;
 	int player1_click1_col = -1;
 	int player1_click2_row = -1;
@@ -82,34 +82,20 @@ public class NewSinglePlayerActivity extends Activity {
 		setContentView(R.layout.table);
 		
 		dm = DataManager.getInstance(getApplicationContext());
-		try {
-			OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class).getCardDao();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		
 		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
 		level = getIntent().getIntExtra("level", (int) 1);
-
+		
 		try {
-			table = new Table(level);
-			dm.getDatabaseHelper().getTableDao().createOrUpdate(table);
-			ArrayList<Card> cards = (ArrayList<Card>) table.getCards();
-			for (Card card : cards) {
-				card.setTable(table);
-				try {
-					dm.getDatabaseHelper().getCardDao().createOrUpdate(card);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			game = new Game(level, 1);
+			dm.saveGame(game);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 
 		RelativeLayout card_1_1 = (RelativeLayout) findViewById(R.id.card_1_1);
 		RelativeLayout card_2_1 = (RelativeLayout) findViewById(R.id.card_2_1);
@@ -225,13 +211,13 @@ public class NewSinglePlayerActivity extends Activity {
 		tmpSet6.add(card_8_6);
 		tableLayout.add(tmpSet6);
 
-		row_count = table.getHeight();
-		col_count = table.getWidth();
+		row_count = game.getTable().getHeight();
+		col_count = game.getTable().getWidth();
 
 		for (int row = 0; row < tableLayout.size(); row++) {
 			for (int col = 0; col < tableLayout.get(row).size(); col++) {
 				RelativeLayout rl = tableLayout.get(row).get(col);
-				if (col < table.getWidth() && row < table.getHeight()) {
+				if (col < game.getTable().getWidth() && row < game.getTable().getHeight()) {
 					final int fcol = col;
 					final int frow = row;
 
@@ -239,10 +225,12 @@ public class NewSinglePlayerActivity extends Activity {
 					rl.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							if (table.getCard(frow, fcol) != null) {
-								Card currCard = table.getCard(frow, fcol);
+							if (game.getTable().getCard(frow, fcol) != null) {
+								game.clickCard(frow, fcol);
+								
+								Card currCard = game.getCurrent_card();
 								playSound(frow, fcol, currCard.getAudioRes());
-								currCard.show();
+								
 								if (player1_click1_row < 0) {
 									player1_click1_row = frow;
 									player1_click1_col = fcol;
@@ -296,8 +284,8 @@ public class NewSinglePlayerActivity extends Activity {
 									
 									// ha az első kártya klikk és a második kártya klikk nem egyezik
 									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
-											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
-										table.foundPair(new Pair(currCard.getAudioRes()));
+											&& game.getTable().getCard(player1_click1_row, player1_click1_col).getAudioRes() == game.getTable().getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
+										game.getTable().foundPair(new Pair(currCard.getAudioRes()));
 										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
 										tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
 										
@@ -310,7 +298,7 @@ public class NewSinglePlayerActivity extends Activity {
 										        	
 
 										
-										if (table.getFoundpairs() == col_count*row_count/2) {
+										if (game.getTable().getFoundpairs() == col_count*row_count/2) {
 										
 											AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
 											 LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
@@ -333,6 +321,12 @@ public class NewSinglePlayerActivity extends Activity {
 											 });
 											 final  AlertDialog dialog =  dialogBuilder.create();
 											 dialog.show();
+											 
+											 try {
+												dm.saveGame(game);
+											} catch (SQLException e) {
+												e.printStackTrace();
+											}
 										}
 									}else{
 									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
@@ -343,7 +337,6 @@ public class NewSinglePlayerActivity extends Activity {
 									player1_click2_row = -1;
 									player1_click2_col = -1;
 								} else {
-									
 									player1_click1_row = -1;
 									player1_click1_col = -1;
 									player1_click2_row = -1;
@@ -356,7 +349,7 @@ public class NewSinglePlayerActivity extends Activity {
 					rl.setVisibility(View.GONE);
 				}
 			}
-			if (row < table.getHeight()) {
+			if (row < game.getTable().getHeight()) {
 				((View) tableLayout.get(row).get(0).getParent()).setVisibility(View.VISIBLE);
 			} else {
 				((View) tableLayout.get(row).get(0).getParent()).setVisibility(View.GONE);

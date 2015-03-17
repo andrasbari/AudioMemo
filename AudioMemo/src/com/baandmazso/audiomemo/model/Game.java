@@ -25,6 +25,10 @@ import android.widget.RelativeLayout;
 
 @DatabaseTable(tableName = Game.TABLE_NAME)
 public class Game implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1869553443141769390L;
 	public static final String TABLE_NAME = "games";
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_LEVEL = "level";
@@ -40,7 +44,7 @@ public class Game implements Serializable {
 	private Table table = null;
 	@ForeignCollectionField(eager = true, maxEagerLevel = 10)
 	private Collection<Player> players = new ArrayList<Player>();
-	
+
 	private int click1_row = -1;
 	private int click1_col = -1;
 	private int click2_row = -1;
@@ -48,72 +52,84 @@ public class Game implements Serializable {
 
 	int col_count = 0;
 	int row_count = 0;
+	private Card current_card = null;
 	private int current_player_number = 0;
 	private int current_round = 0;
 	private int shown_cards = 0;
 
 	public Game() {
-		
+
 	}
-	
-	public Game(int level, int player_count) {
+
+	public Game(int level, int player_count) throws Exception {
 		this.level = level;
 		this.player_count = player_count;
 		for (int i = 0; i < player_count; i++) {
-			players.add(new Player());
+			Player player = new Player();
+			player.setGame(this);
+			players.add(player);
 		}
 
-		try {
-			table = new Table(level);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		table = new Table(level);
 
 		row_count = table.getHeight();
 		col_count = table.getWidth();
 	}
-	
+
 	public void clickCard(int row, int col) {
 		if (table.getCard(row, col) != null) {
-			showCard(row, col);
+			// ha az első fordítás történik
 			if (click1_row < 0 && click1_col < 0) {
+				showCard(row, col);
 				click1_row = row;
 				click1_col = col;
-			} else {
-				if (click2_row < 0 && click2_col < 0) {
+			} // ha második fordítás történik
+			else if (click2_row < 0 && click2_col < 0) {
+				// ha a második kártya ugyanaz mint az első kártya akkor nem csinál semmit sem!
+				if ( row == click1_row && col == click1_col) {
+					
+				} else {
+					showCard(row, col);
 					click2_row = row;
 					click2_col = col;
-				} else {
+					
+					//ha megtalálta a párt
 					if (table.getCard(click1_row, click1_col).getAudioRes() == table.getCard(click2_row, click2_col).getAudioRes()) {
-						
+						table.foundPair(table.getCard(click1_row, click1_col).getAudioRes());
 					} else {
 						
 					}
+
 					click1_row = -1;
 					click1_col = -1;
 					click2_row = -1;
 					click2_col = -1;
 				}
+			} else {
+				click1_row = -1;
+				click1_col = -1;
+				click2_row = -1;
+				click2_col = -1;
 			}
 		}
 	}
-	
+
 	public void playSound(int row, int col, int audio_res) {
-		
+
 	}
 
 	public void showCard(int row, int col) {
-		Card currCard = table.getCard(row, col);
-		playSound(row, col, currCard.getAudioRes());
-		currCard.show();
+		current_card = table.getCard(row, col);
+		playSound(row, col, current_card.getAudioRes());
+		current_card.show();
 		shown_cards++;
 		if (shown_cards % 2 == 0) {
 			nextPlayer();
 		}
 	}
-	
+
 	public void foundPair(int audio_res) {
-		
+
 	}
 
 	public void nextPlayer() {
@@ -128,16 +144,28 @@ public class Game implements Serializable {
 		current_player_number = 0;
 		current_round++;
 	}
-	
+
 	public int getCurrentRound() {
 		return current_round;
 	}
-	
+
 	public int getCurrentPlayerNumber() {
 		return current_player_number;
 	}
-	
+
 	public Player getCurrentPlayer() {
-		return ((ArrayList<Player>)players).get(current_player_number);
+		return ((ArrayList<Player>) players).get(current_player_number);
+	}
+
+	public Collection<Player> getPlayers() {
+		return players;
+	}
+
+	public Table getTable() {
+		return table;
+	}
+
+	public Card getCurrent_card() {
+		return current_card;
 	}
 }

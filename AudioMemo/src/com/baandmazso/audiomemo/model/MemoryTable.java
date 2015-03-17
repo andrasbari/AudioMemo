@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MemoryTable implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8452628888040621316L;
 	private int row_count;
 	private int col_count;
 	private ArrayList<Pair> pairs = new ArrayList<Pair>();

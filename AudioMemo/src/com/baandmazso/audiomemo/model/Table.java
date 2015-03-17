@@ -19,6 +19,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = Table.TABLE_NAME)
 public class Table implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8947241813696115016L;
 	public static final String TABLE_NAME = "tables";
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_LEVEL = "level";
@@ -38,10 +42,12 @@ public class Table implements Serializable {
 	private int height = 0;
 	@ForeignCollectionField(eager = true, maxEagerLevel = 10)
 	private Collection<Card> cards = new ArrayList<Card>();
+	@ForeignCollectionField(eager = true, maxEagerLevel = 10)
+	private Collection<Pair> pairs = new ArrayList<Pair>();
 
 	private int found_pair_count = 0;
 	private Map<Integer, Pair> found_pairs = new HashMap<Integer, Pair>();
-
+	
 	public Table() {
 		
 	}
@@ -108,8 +114,14 @@ public class Table implements Serializable {
 		}
 		int pair_count = (int) (this.width * this.height / 2);
 		for (int i = 0; i < pair_count; i++) {
-			cards.add(new Card(AUDIO_RESOURCES[i]));
-			cards.add(new Card(AUDIO_RESOURCES[i]));
+			Pair pair = new Pair(AUDIO_RESOURCES[i]);
+			Card card1 = pair.getCard1();
+			Card card2 = pair.getCard2();
+			pair.setTable(this);
+			card1.setTable(this);
+			card2.setTable(this);
+			cards.add(card1);
+			cards.add(card2);
 		}
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
@@ -167,6 +179,15 @@ public class Table implements Serializable {
 		return null;
 	}
 
+	public void foundPair(int audio_res) {
+		for (Pair pair : pairs) {
+			if (pair.getAudioRes() == audio_res) {
+				foundPair(pair);
+				break;
+			}
+		}
+	}
+	
 	public void foundPair(Pair pair) {
 		found_pairs.put(pair.getAudioRes(), pair);
 		found_pair_count++;
@@ -174,5 +195,9 @@ public class Table implements Serializable {
 
 	public int getFoundpairs() {
 		return found_pair_count;
+	}
+
+	public Collection<Pair> getPairs() {
+		return pairs;
 	}
 }

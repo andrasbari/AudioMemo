@@ -12,6 +12,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = Player.TABLE_NAME)
 public class Player implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6898902292858945973L;
 	public static final String TABLE_NAME = "players";
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_NAME = "name";
@@ -41,5 +45,13 @@ public class Player implements Serializable {
 	
 	public Player() {
 		
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }

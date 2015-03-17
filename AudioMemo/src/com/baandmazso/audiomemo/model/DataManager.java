@@ -1,5 +1,6 @@
 package com.baandmazso.audiomemo.model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -73,6 +74,33 @@ public class DataManager {
 			e.printStackTrace();
 		}*/
 		return false;
+	}
+	
+	public void saveGame(Game game) throws SQLException {
+		Dao<Card, Integer> cardDao = getDatabaseHelper().getCardDao();
+		Dao<Game, Integer> gameDao = getDatabaseHelper().getGameDao();
+		Dao<Player, Integer> playerDao = getDatabaseHelper().getPlayerDao();
+		Dao<Table, Integer> tableDao = getDatabaseHelper().getTableDao();
+		Dao<Pair, Integer> pairDao = getDatabaseHelper().getPairDao();
+		
+		tableDao.createOrUpdate(game.getTable());
+		
+		gameDao.createOrUpdate(game);
+		
+		ArrayList<Player> players = (ArrayList<Player>) game.getPlayers();
+		for (Player player : players) {
+			playerDao.createOrUpdate(player);
+		}
+		
+		ArrayList<Card> cards = (ArrayList<Card>) game.getTable().getCards();
+		for (Card card : cards) {
+			cardDao.createOrUpdate(card);
+		}
+		
+		ArrayList<Pair> pairs = (ArrayList<Pair>) game.getTable().getPairs();
+		for (Pair pair : pairs) {
+			pairDao.createOrUpdate(pair);
+		}
 	}
 
 }
