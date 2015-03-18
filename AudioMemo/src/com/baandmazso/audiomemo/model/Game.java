@@ -76,18 +76,20 @@ public class Game implements Serializable {
 		col_count = table.getWidth();
 	}
 
-	public void clickCard(int row, int col) {
+	public boolean clickCard(int row, int col) {
 		if (table.getCard(row, col) != null) {
 			// ha az első fordítás történik
 			if (click1_row < 0 && click1_col < 0) {
 				showCard(row, col);
 				click1_row = row;
 				click1_col = col;
+				
+				return true;
 			} // ha második fordítás történik
 			else if (click2_row < 0 && click2_col < 0) {
 				// ha a második kártya ugyanaz mint az első kártya akkor nem csinál semmit sem!
 				if ( row == click1_row && col == click1_col) {
-					
+					return false;
 				} else {
 					showCard(row, col);
 					click2_row = row;
@@ -104,14 +106,20 @@ public class Game implements Serializable {
 					click1_col = -1;
 					click2_row = -1;
 					click2_col = -1;
+					
+					return true;
 				}
 			} else {
 				click1_row = -1;
 				click1_col = -1;
 				click2_row = -1;
 				click2_col = -1;
+				
+				return false;
 			}
-		}
+		} else {
+			return false;
+		}		
 	}
 
 	public void playSound(int row, int col, int audio_res) {

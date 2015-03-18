@@ -225,123 +225,123 @@ public class NewSinglePlayerActivity extends Activity {
 					rl.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							if (game.getTable().getCard(frow, fcol) != null) {
-								game.clickCard(frow, fcol);
+							if (!game.clickCard(frow, fcol)) {
+								return;
+							}
+							
+							Card currCard = game.getCurrent_card();
+							playSound(frow, fcol, currCard.getAudioRes());
+							
+							if (player1_click1_row < 0) {
+								player1_click1_row = frow;
+								player1_click1_col = fcol;
+								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
+								selected++;
+								flippedCards++;
 								
-								Card currCard = game.getCurrent_card();
-								playSound(frow, fcol, currCard.getAudioRes());
-								
-								if (player1_click1_row < 0) {
-									player1_click1_row = frow;
-									player1_click1_col = fcol;
-									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
-									selected++;
-									flippedCards++;
-									
-									if(selected==3){
-										if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
-											tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
-											tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
-											
-											player1_prev_click1_row = player1_click1_row;
-											player1_prev_click1_col = player1_click1_col;
-											
-											selected=1;
-										
-										}else if(((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))){
-											tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118,118,118));
-											tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
-											
-											player1_prev_click1_row = player1_click1_row;
-											player1_prev_click1_col = player1_click1_col;
-											
-											selected=1;
-										}else{
-											tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
-											tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
-											
-											player1_prev_click1_row = player1_click1_row;
-											player1_prev_click1_col = player1_click1_col;
-											
-											selected=1;
-										}
-									}else{
+								if(selected==3){
+									if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
+										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
+										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
 										
 										player1_prev_click1_row = player1_click1_row;
 										player1_prev_click1_col = player1_click1_col;
-									}
-									
-									
-									
-								} else if (player1_click2_row < 0) {
-									player1_click2_row = frow;
-									player1_click2_col = fcol;
-									player1_prev_click2_row = player1_click2_row;
-									player1_prev_click2_col = player1_click2_col;
-									selected++;
-									flippedCards++;
-									
-									
-									// ha az első kártya klikk és a második kártya klikk nem egyezik
-									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
-											&& game.getTable().getCard(player1_click1_row, player1_click1_col).getAudioRes() == game.getTable().getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
-										game.getTable().foundPair(new Pair(currCard.getAudioRes()));
-										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
-										tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
 										
-										tableLayout.get(player1_click1_row).get(player1_click1_col).startAnimation(animAlpha);
-										tableLayout.get(player1_click2_row).get(player1_click2_col).startAnimation(animAlpha);
+										selected=1;
+									
+									}else if(((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))){
+										tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118,118,118));
+										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
 										
-										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
-										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
-					
-										        	
-
+										player1_prev_click1_row = player1_click1_row;
+										player1_prev_click1_col = player1_click1_col;
 										
-										if (game.getTable().getFoundpairs() == col_count*row_count/2) {
-										
-											AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
-											 LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
-											 View dialogView = inflater.inflate(R.layout.game_finish, null);
-											 dialogBuilder.setView(dialogView);
-											 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
-											 flippedCard.setText(String.valueOf(flippedCards));
-											 mp.stop();
-											 
-											 
-
-											 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-											 @Override
-											 public void onClick(DialogInterface dialog, int which) {
-												 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-												 startActivity(intent);*/ 
-												 dialog.dismiss();
-												 finish();
-											 }
-											 });
-											 final  AlertDialog dialog =  dialogBuilder.create();
-											 dialog.show();
-											 
-											 try {
-												dm.saveGame(game);
-											} catch (SQLException e) {
-												e.printStackTrace();
-											}
-										}
+										selected=1;
 									}else{
-									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
-									tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
+										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
+										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
+										
+										player1_prev_click1_row = player1_click1_row;
+										player1_prev_click1_col = player1_click1_col;
+										
+										selected=1;
 									}
-									player1_click1_row = -1;
-									player1_click1_col = -1;
-									player1_click2_row = -1;
-									player1_click2_col = -1;
-								} else {
-									player1_click1_row = -1;
-									player1_click1_col = -1;
-									player1_click2_row = -1;
-									player1_click2_col = -1;
+								}else{
+									
+									player1_prev_click1_row = player1_click1_row;
+									player1_prev_click1_col = player1_click1_col;
 								}
+								
+								
+								
+							} else if (player1_click2_row < 0) {
+								player1_click2_row = frow;
+								player1_click2_col = fcol;
+								player1_prev_click2_row = player1_click2_row;
+								player1_prev_click2_col = player1_click2_col;
+								selected++;
+								flippedCards++;
+								
+								
+								// ha az első kártya klikk és a második kártya klikk nem egyezik
+								if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
+										&& game.getTable().getCard(player1_click1_row, player1_click1_col).getAudioRes() == game.getTable().getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
+									game.getTable().foundPair(new Pair(currCard.getAudioRes()));
+									tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
+									tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
+									
+									tableLayout.get(player1_click1_row).get(player1_click1_col).startAnimation(animAlpha);
+									tableLayout.get(player1_click2_row).get(player1_click2_col).startAnimation(animAlpha);
+									
+									tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
+									tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
+				
+									        	
+
+									
+									if (game.getTable().getFoundpairs() == col_count*row_count/2) {
+									
+										AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
+										 LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
+										 View dialogView = inflater.inflate(R.layout.game_finish, null);
+										 dialogBuilder.setView(dialogView);
+										 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
+										 flippedCard.setText(String.valueOf(flippedCards));
+										 mp.stop();
+										 
+										 
+
+										 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+										 @Override
+										 public void onClick(DialogInterface dialog, int which) {
+											 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+											 startActivity(intent);*/ 
+											 dialog.dismiss();
+											 finish();
+										 }
+										 });
+										 final  AlertDialog dialog =  dialogBuilder.create();
+										 dialog.show();
+										 
+										 try {
+											dm.saveGame(game);
+										} catch (SQLException e) {
+											e.printStackTrace();
+										}
+									}
+								}else{
+								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+								tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
+								}
+								player1_click1_row = -1;
+								player1_click1_col = -1;
+								player1_click2_row = -1;
+								player1_click2_col = -1;
+							} else {
+								player1_click1_row = -1;
+								player1_click1_col = -1;
+								player1_click2_row = -1;
+								player1_click2_col = -1;
 							}
 						}
 					});
