@@ -128,7 +128,7 @@ public class Game implements Serializable {
 
 	public void showCard(int row, int col) {
 		current_card = table.getCard(row, col);
-		playSound(row, col, current_card.getAudioRes());
+		//playSound(row, col, current_card.getAudioRes());
 		current_card.show();
 		shown_cards++;
 		if (shown_cards % 2 == 0) {
@@ -165,8 +165,8 @@ public class Game implements Serializable {
 		return ((ArrayList<Player>) players).get(current_player_number);
 	}
 
-	public Collection<Player> getPlayers() {
-		return players;
+	public ArrayList<Player> getPlayers() {
+		return (ArrayList<Player>)players;
 	}
 
 	public Table getTable() {

@@ -39,6 +39,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -96,6 +97,18 @@ public class NewSinglePlayerActivity extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		TextView tvPlayer1Name = (TextView) findViewById(R.id.tvPlayer1Name);
+		TextView tvPlayer1Point = (TextView) findViewById(R.id.tvPlayer1Point);
+		TextView tvPlayer1Time = (TextView) findViewById(R.id.tvPlayer1Time);
+		TextView tvPlayer2Name = (TextView) findViewById(R.id.tvPlayer2Name);
+		TextView tvPlayer2Point = (TextView) findViewById(R.id.tvPlayer2Point);
+		TextView tvPlayer2Time = (TextView) findViewById(R.id.tvPlayer2Time);
+		ImageView ivPlayPause = (ImageView) findViewById(R.id.ivPlayPause);
+		
+		tvPlayer2Name.setVisibility(View.GONE);
+		tvPlayer2Point.setVisibility(View.GONE);
+		tvPlayer2Time.setVisibility(View.GONE);
 
 		RelativeLayout card_1_1 = (RelativeLayout) findViewById(R.id.card_1_1);
 		RelativeLayout card_2_1 = (RelativeLayout) findViewById(R.id.card_2_1);
