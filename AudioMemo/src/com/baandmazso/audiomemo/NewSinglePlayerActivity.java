@@ -311,7 +311,7 @@ public class NewSinglePlayerActivity extends Activity {
 				
 									        	
 
-									
+									// megtaláltam az összes párt
 									if (game.getTable().getFoundpairs() == col_count*row_count/2) {
 									
 										AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
