@@ -337,7 +337,6 @@ public class NewSinglePlayerActivity extends Activity {
 										 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
 										 flippedCard.setText(String.valueOf(flippedCards));
 										 TextView timeData = (TextView) dialogView.findViewById(R.id.timeData);
-										 timeData.setText("");
 										 timeData.setText(tvPlayer1Time.getText().toString());
 										 mp.stop();
 										 myTimeHandler.removeCallbacks(updateTimerMethod);
