@@ -28,6 +28,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,6 +75,15 @@ public class NewSinglePlayerActivity extends Activity {
 	int player2_click2_col = -1;
 	
 	int flippedCards=0;
+	
+	long startTime = 0L;
+	long timeInMillies = 0L;
+	long timeSwap = 0L;
+	long finalTime = 0L;
+	
+	private TextView tvPlayer1Time;
+	private Handler myTimeHandler = new Handler();
+	private boolean isTimerStarted = false;
 
 	private ArrayList<ArrayList<RelativeLayout>> tableLayout = new ArrayList<ArrayList<RelativeLayout>>();
 
@@ -100,7 +110,7 @@ public class NewSinglePlayerActivity extends Activity {
 		
 		TextView tvPlayer1Name = (TextView) findViewById(R.id.tvPlayer1Name);
 		TextView tvPlayer1Point = (TextView) findViewById(R.id.tvPlayer1Point);
-		TextView tvPlayer1Time = (TextView) findViewById(R.id.tvPlayer1Time);
+		tvPlayer1Time = (TextView) findViewById(R.id.tvPlayer1Time);
 		TextView tvPlayer2Name = (TextView) findViewById(R.id.tvPlayer2Name);
 		TextView tvPlayer2Point = (TextView) findViewById(R.id.tvPlayer2Point);
 		TextView tvPlayer2Time = (TextView) findViewById(R.id.tvPlayer2Time);
@@ -251,6 +261,12 @@ public class NewSinglePlayerActivity extends Activity {
 								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
 								selected++;
 								flippedCards++;
+								//Első lap fordításkor elindítja az időmérést
+								if(!isTimerStarted){
+									startTime = SystemClock.uptimeMillis();
+									myTimeHandler.postDelayed(updateTimerMethod, 1000);
+									isTimerStarted=true;
+								}
 								
 								if(selected==3){
 									if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
@@ -320,7 +336,11 @@ public class NewSinglePlayerActivity extends Activity {
 										 dialogBuilder.setView(dialogView);
 										 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
 										 flippedCard.setText(String.valueOf(flippedCards));
+										 TextView timeData = (TextView) dialogView.findViewById(R.id.timeData);
+										 timeData.setText("");
+										 timeData.setText(tvPlayer1Time.getText().toString());
 										 mp.stop();
+										 myTimeHandler.removeCallbacks(updateTimerMethod);
 										 
 										 
 
@@ -379,6 +399,31 @@ public class NewSinglePlayerActivity extends Activity {
 		 * @Override public boolean onTouch(View v, MotionEvent event) { switch (event.getAction()) { case MotionEvent.ACTION_DOWN: v.setBackgroundColor(Color.argb(255, 192, 64, 64)); playSound(i2, k2); break; case MotionEvent.ACTION_UP:
 		 * v.setBackgroundColor(Color.argb(0, 0, 0, 0)); stopSound(); break; } return true; } }); cells.add(cell); } }
 		 */
+		
+		ivPlayPause.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
+				LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
+				View dialogView = inflater.inflate(R.layout.game_pause, null);
+				dialogBuilder.setView(dialogView);
+				timeSwap += timeInMillies;
+				myTimeHandler.removeCallbacks(updateTimerMethod);
+
+				dialogBuilder.setPositiveButton("Folytatás", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						startTime = SystemClock.uptimeMillis();
+						myTimeHandler.postDelayed(updateTimerMethod, 1000);
+						
+					}
+				});
+				final AlertDialog dialog = dialogBuilder.create();
+				dialog.show();
+			}
+		});
 	}
 
 	private void playSound(int row, int col, int res) {
@@ -449,4 +494,20 @@ public class NewSinglePlayerActivity extends Activity {
 		stopSound();
 		super.onBackPressed();
 	}
+	
+private Runnable updateTimerMethod = new Runnable() {
+		
+		@Override
+		public void run() {
+			timeInMillies = SystemClock.uptimeMillis()-startTime;
+			finalTime = timeSwap+timeInMillies;
+			int seconds = (int)(finalTime/1000);
+			int minutes = seconds/60;
+			
+			
+			tvPlayer1Time.setText(""+String.format("%02d",minutes)+":"+String.format("%02d", (seconds%60)));
+			myTimeHandler.postDelayed(this, 1000);
+			
+		}
+	};
 }
