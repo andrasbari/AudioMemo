@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
 	private Button btnMultiPlayer;
 	private ImageView questonMark;
 	private ImageView settings;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,12 @@ public class MainActivity extends Activity {
 		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
 		questonMark = (ImageView) findViewById(R.id.imageView1);
 		settings = (ImageView) findViewById(R.id.imageView2);
+		
+		//SplashScreen meghívása
+		Intent i = new Intent(getApplicationContext(),SplashScreen.class);
+		startActivity(i);
+		
+		
 
 		btnNewSinglePlayer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -54,6 +61,7 @@ public class MainActivity extends Activity {
 
 				// dialogView.findviewbyid..........
 
+				
 				dialogBuilder.setView(dialogView);
 
 				// Gombok hozzáadása, onclick() létrehozása
@@ -75,6 +83,7 @@ public class MainActivity extends Activity {
 				});
 
 				final AlertDialog dialog = dialogBuilder.create();
+				
 
 				level1.setOnClickListener(new View.OnClickListener() {
 
