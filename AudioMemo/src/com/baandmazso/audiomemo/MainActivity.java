@@ -8,6 +8,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -45,8 +47,8 @@ public class MainActivity extends Activity {
 		settings = (ImageView) findViewById(R.id.imageView2);
 		
 		//SplashScreen meghívása
-		Intent i = new Intent(getApplicationContext(),SplashScreen.class);
-		startActivity(i);
+		Intent intentSpalsh = new Intent(getApplicationContext(),SplashScreen.class);
+		startActivity(intentSpalsh);
 		
 		
 
@@ -55,9 +57,9 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-
+				
 				LayoutInflater inflater = MainActivity.this.getLayoutInflater();
-				View dialogView = inflater.inflate(R.layout.szint_valaszt, null);
+				View dialogView = inflater.inflate(R.layout.szint_valaszt,null);
 
 				// dialogView.findviewbyid..........
 
@@ -83,6 +85,7 @@ public class MainActivity extends Activity {
 				});
 
 				final AlertDialog dialog = dialogBuilder.create();
+				
 				
 
 				level1.setOnClickListener(new View.OnClickListener() {

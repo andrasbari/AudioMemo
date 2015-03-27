@@ -7,8 +7,8 @@ import android.os.Handler;
 
 public class SplashScreen extends Activity {
 
-	//Splash screen eddig látható, jelenleg 3 sec
-	private static int SPLASH_TIME_OUT = 3000;
+	//Splash screen eddig látható, jelenleg 2 sec
+	private static int SPLASH_TIME_OUT = 2000;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
