@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.baandmazso.audiomemo.NewPlayer" >
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="Név:" />
+    
+      <EditText
+        android:id="@+id/nameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/name"
+        android:ems="10"
+        android:hint="pl.: Kati"
+        android:textSize="15sp" >        
+    </EditText>
+   
+    <TextView
+        android:id="@+id/gender"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:textSize="15sp"
+        android:text="Neme:" />
+    
+   
+
+    <Spinner
+        android:id="@+id/genderValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameValue"
+         android:layout_alignParentRight="true"
+        
+        android:layout_marginTop="20dp" 
+        android:entries="@array/genders"/>
+    
+      <TextView
+        android:id="@+id/birthYear"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gender"
+        android:textSize="15sp"
+        android:text="Születési év: " />
+      
+       <EditText
+           android:layout_marginTop="40dp"
+        android:id="@+id/birthYearValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/genderValue"
+         android:layout_alignParentRight="true"
+        
+        android:hint="pl.: 1990"
+        android:textSize="15sp" >        
+    </EditText>
+
+       <Button
+           android:id="@+id/cancel"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:text="Mégse" />
+
+       <Button
+           android:id="@+id/save"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:layout_above="@+id/cancel"
+           android:layout_centerHorizontal="true"
+           android:text="Mentés" />
+
+</RelativeLayout>

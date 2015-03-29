@@ -385,7 +385,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+				/*AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 				LayoutInflater inflater = MainActivity.this.getLayoutInflater();
 				View dialogView = inflater.inflate(R.layout.settings, null);
 				dialogBuilder.setView(dialogView);
@@ -397,7 +397,9 @@ public class MainActivity extends Activity {
 					}
 				});
 				final AlertDialog dialog = dialogBuilder.create();
-				dialog.show();
+				dialog.show();*/
+				Intent intent = new Intent(getApplicationContext(), Settings.class);
+				startActivity(intent);
 
 			}
 		});
