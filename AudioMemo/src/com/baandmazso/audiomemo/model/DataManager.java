@@ -102,5 +102,27 @@ public class DataManager {
 			pairDao.createOrUpdate(pair);
 		}
 	}
+	
+	public void addUser(User user) throws SQLException {
+		Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();
+
+		userDao.create(user);
+	}
+	
+	// legfiatalabb user lekérése a megadott névvel
+	public User getYoungestUser(String user_name) throws SQLException {
+		Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();
+
+		QueryBuilder<User, Integer> builder = userDao.queryBuilder();
+		builder.where().eq(User.FIELD_NAME, user_name);
+		
+		// növekvőbe kérjük le a legfitalabb usert
+		builder.orderBy(User.FIELD_BIRTH_YEAR, true);
+		
+		// max 1 lekérése
+		builder.limit(1l);
+		
+		return userDao.queryForFirst(builder.prepare());
+	}
 
 }

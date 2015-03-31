@@ -13,7 +13,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-	public static final int DATABASE_VERSION = 31;
+	public static final int DATABASE_VERSION = 32;
 
 	private Context context;
 
@@ -23,6 +23,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<Pair, Integer> PairDao;
 	private Dao<Player, Integer> PlayerDao;
 	private Dao<Table, Integer> TableDao;
+	private Dao<User, Integer> UserDao;
 
 	public DatabaseHelper(Context context) {
 		super(context, context.getExternalFilesDir("") + File.separator + "audiomemo.sqlite3", null, DATABASE_VERSION);
@@ -40,6 +41,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, Player.class);
 			//TableUtils.createTable(connectionSource, MemoryTable.class);
 			TableUtils.createTable(connectionSource, Pair.class);
+			TableUtils.createTable(connectionSource, User.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -49,12 +51,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		try {
 			Log.d("DatabaseHelper", "onUpgrade");
+			if (oldVersion == 31 && newVersion == 32) {
+				TableUtils.createTable(connectionSource, User.class);
+				return;
+			}
 			TableUtils.dropTable(connectionSource, Card.class, true);
 			TableUtils.dropTable(connectionSource, Game.class, true);
 			//TableUtils.dropTable(connectionSource, MemoryTable.class, true);
 			TableUtils.dropTable(connectionSource, Pair.class, true);
 			TableUtils.dropTable(connectionSource, Player.class, true);
 			TableUtils.dropTable(connectionSource, Table.class, true);
+			TableUtils.dropTable(connectionSource, User.class, true);
 			onCreate(database, connectionSource);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,6 +108,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableDao = getDao(Table.class);
 		}
 		return TableDao;
+	}
+	
+	public Dao<User, Integer> getUserDao() throws SQLException {
+		if (UserDao == null) {
+			UserDao = getDao(User.class);
+		}
+		return UserDao;
 	}
 
 	public Context getContext() {

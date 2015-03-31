@@ -54,4 +54,15 @@ public class Player implements Serializable {
 	public void setGame(Game game) {
 		this.game = game;
 	}
+	
+	// user adatainak bemásolása a player ojjektumba
+	public void cloneUser(User user) {
+		if (user.getName() == null) {
+			this.name = null;
+		} else {
+			this.name = String.valueOf(user.getName());
+		}
+		this.gender = user.getGender();
+		this.birth_year = user.getBirth_year();
+	}
 }
