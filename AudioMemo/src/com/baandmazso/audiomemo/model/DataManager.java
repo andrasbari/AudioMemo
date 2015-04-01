@@ -19,6 +19,10 @@ public class DataManager {
 	private SharedPreferences sharedpref = null;
 	private DatabaseHelper databaseHelper = null;
 
+	public SharedPreferences getSharedprefs() {
+		return sharedpref;
+	}
+	
 	public static DataManager getInstance(Context context) {
 		if (dm == null) {
 			dm = new DataManager();

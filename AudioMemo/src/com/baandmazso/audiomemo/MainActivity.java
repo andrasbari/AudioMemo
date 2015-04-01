@@ -40,7 +40,6 @@ public class MainActivity extends Activity {
 	private ImageView questonMark;
 	private ImageView settings;
 	private TextView userName;
-	public static final String PREF_NAME="MySettings";
 	
 
 	@Override
@@ -48,12 +47,14 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		dm = DataManager.getInstance(getApplicationContext());
+		
 		//SplashScreen meghívása
 				Intent intentSpalsh = new Intent(getApplicationContext(),SplashScreen.class);
 				startActivity(intentSpalsh);
 		//Első futás-e?
 		int runCounter;
-		SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+		SharedPreferences sp = dm.getSharedprefs();
 		Editor editor = sp.edit();
 		
 		runCounter = sp.getInt("runCounter", 0);
@@ -82,7 +83,7 @@ public class MainActivity extends Activity {
 				
 			}
 
-		dm = DataManager.getInstance(getApplicationContext());
+		
 
 		btnNewSinglePlayer = (Button) findViewById(R.id.btnNewSinglePlayer);
 		btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
