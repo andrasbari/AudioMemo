@@ -9,10 +9,14 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -31,6 +36,7 @@ public class MainActivity extends Activity {
 	private Button btnMultiPlayer;
 	private ImageView questonMark;
 	private ImageView settings;
+	private TextView userName;
 	
 
 	@Override
@@ -45,6 +51,23 @@ public class MainActivity extends Activity {
 		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
 		questonMark = (ImageView) findViewById(R.id.imageView1);
 		settings = (ImageView) findViewById(R.id.imageView2);
+		userName = (TextView) findViewById(R.id.textView2);
+		
+		//LocalBoradcast receiver
+		
+		BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String message = intent.getStringExtra("name");
+				userName.setText(message);
+				
+			}
+		};
+		
+		LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiver, new IntentFilter("Játékos átadás"));
+		
+		
 		
 		//SplashScreen meghívása
 		Intent intentSpalsh = new Intent(getApplicationContext(),SplashScreen.class);

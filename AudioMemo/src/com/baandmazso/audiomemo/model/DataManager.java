@@ -2,6 +2,7 @@ package com.baandmazso.audiomemo.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -124,5 +125,18 @@ public class DataManager {
 		
 		return userDao.queryForFirst(builder.prepare());
 	}
+	
+	public List getUsers() throws SQLException{
+		 List<User> list;
+		 Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();
+		 list = userDao.queryForAll();
+		return list;	
+	};
+	
+	//Felhasználó törlése
+	public void deleteUser(User user) throws SQLException{
+		 Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();
+		 userDao.deleteById(user.getId());
+	};
 
 }
