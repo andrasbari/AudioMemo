@@ -14,9 +14,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,12 +40,47 @@ public class MainActivity extends Activity {
 	private ImageView questonMark;
 	private ImageView settings;
 	private TextView userName;
+	public static final String PREF_NAME="MySettings";
 	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//SplashScreen meghívása
+				Intent intentSpalsh = new Intent(getApplicationContext(),SplashScreen.class);
+				startActivity(intentSpalsh);
+		//Első futás-e?
+		int runCounter;
+		SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+		Editor editor = sp.edit();
+		
+		runCounter = sp.getInt("runCounter", 0);
+		if(runCounter==0){
+				Toast.makeText(getApplicationContext(), "Első futás", Toast.LENGTH_SHORT).show();
+				
+				runCounter = (runCounter+1);
+				editor.putInt("runCounter", runCounter);
+				editor.commit();
+				
+				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+				LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+				View dialogView = inflater.inflate(R.layout.first_run, null);
+				dialogBuilder.setView(dialogView);
+
+				dialogBuilder.setPositiveButton("Rendben", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Intent intent = new Intent(getApplicationContext(), NewPlayer.class);
+						startActivity(intent);
+						dialog.dismiss();
+					}
+				});
+				final AlertDialog dialog = dialogBuilder.create();
+				dialog.show();
+				
+			}
 
 		dm = DataManager.getInstance(getApplicationContext());
 
@@ -69,9 +107,7 @@ public class MainActivity extends Activity {
 		
 		
 		
-		//SplashScreen meghívása
-		Intent intentSpalsh = new Intent(getApplicationContext(),SplashScreen.class);
-		startActivity(intentSpalsh);
+		
 		
 		
 
