@@ -42,16 +42,23 @@ public class NewPlayer extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				User newUser = new User(etNameValue.getText().toString(),spGenderValue.getSelectedItemPosition()+1,Integer.parseInt(etbirthYearValue.getText().toString()));
-				try {
-					dm.addUser(newUser);
-					Toast.makeText(getApplicationContext(), "Felhasználó hozzáadva!", Toast.LENGTH_SHORT).show();
-					finish();
-					Intent intent = new Intent(getApplicationContext(),Settings.class);
-					startActivity(intent);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(etNameValue.getText().toString().contentEquals("")|| etbirthYearValue.getText().toString().contentEquals("") ){
+					Toast.makeText(getApplicationContext(), "Minden mezőt meg kell adni!", Toast.LENGTH_SHORT).show();
+
+				}else{
+					User newUser = new User(etNameValue.getText().toString(),spGenderValue.getSelectedItemPosition()+1,Integer.parseInt(etbirthYearValue.getText().toString()));
+					try {
+						dm.addUser(newUser);
+						Toast.makeText(getApplicationContext(), "Felhasználó hozzáadva!", Toast.LENGTH_SHORT).show();
+						finish();
+						Intent intent = new Intent(getApplicationContext(),Settings.class);
+						startActivity(intent);
+					
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				}
 				
 			}

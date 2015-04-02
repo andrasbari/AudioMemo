@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo;
+package com.baandmazso.audiomemo.adapter;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import com.baandmazso.audiomemo.R;
+import com.baandmazso.audiomemo.R.id;
+import com.baandmazso.audiomemo.R.layout;
 import com.baandmazso.audiomemo.model.User;
 
 import android.app.Activity;
@@ -20,7 +23,7 @@ import android.widget.TextView;
 
 public class CustomListAdapter extends BaseAdapter {
 	Context mcontext;
-	List<User> list;
+	public List<User> list;
 
 	public CustomListAdapter(Context mcontext, List<User> list) {
 		this.mcontext = mcontext;
@@ -59,7 +62,7 @@ public class CustomListAdapter extends BaseAdapter {
 		
 		User sd = list.get(position);
 		tv1.setText(sd.getName());
-		
+		tv2.setText(String.valueOf(sd.getBirth_year()));
 
 		return convertView;
 	}

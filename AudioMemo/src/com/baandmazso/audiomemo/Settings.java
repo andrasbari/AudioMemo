@@ -5,6 +5,7 @@ package com.baandmazso.audiomemo;
 
 import java.sql.SQLException;
 
+import com.baandmazso.audiomemo.adapter.CustomListAdapter;
 import com.baandmazso.audiomemo.model.DataManager;
 
 import android.app.Activity;

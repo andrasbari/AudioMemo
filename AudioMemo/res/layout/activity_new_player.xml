@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/genderValue"
          android:layout_alignParentRight="true"
-        
+        android:inputType="number"
         android:hint="pl.: 1990"
         android:textSize="15sp" >        
     </EditText>
