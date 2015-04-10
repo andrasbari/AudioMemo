@@ -51,9 +51,10 @@ public class Settings extends Activity {
 				Toast.makeText(getApplicationContext(),
 						String.valueOf(cla.list.get(position).getName()),
 						Toast.LENGTH_SHORT).show();
-				//Listábol kiválasztott felhasználó nevének átadása
+				//Listábol kiválasztott felhasználó nevének és id-nak átadása a MainActivity-nek
 				Intent intent = new Intent("Játékos átadás");
 				intent.putExtra("name", String.valueOf(cla.list.get(position).getName()));
+				intent.putExtra("id",cla.list.get(position).getId());
 				LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 				finish();
 			}

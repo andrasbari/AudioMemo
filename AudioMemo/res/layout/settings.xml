@@ -46,6 +46,7 @@
     	    android:layout_alignParentBottom="true"
     	    android:text="Új felhasználó"
     	    android:layout_centerHorizontal="true"
-    	    android:textSize="25sp" />
+    	    android:textSize="25sp"
+    	    android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

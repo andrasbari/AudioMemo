@@ -40,6 +40,10 @@ public class MainActivity extends Activity {
 	private ImageView questonMark;
 	private ImageView settings;
 	private TextView userName;
+	Editor editor;
+	
+	//Aktuális felhasználó azonosítója
+	private int userId;
 	
 
 	@Override
@@ -47,23 +51,37 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		btnNewSinglePlayer = (Button) findViewById(R.id.btnNewSinglePlayer);
+		btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
+		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
+		questonMark = (ImageView) findViewById(R.id.imageView1);
+		settings = (ImageView) findViewById(R.id.imageView2);
+		userName = (TextView) findViewById(R.id.textView2);
+		
 		dm = DataManager.getInstance(getApplicationContext());
 		
 		//SplashScreen meghívása
 				Intent intentSpalsh = new Intent(getApplicationContext(),SplashScreen.class);
 				startActivity(intentSpalsh);
-		//Első futás-e?
+		
 		int runCounter;
+		
 		SharedPreferences sp = dm.getSharedprefs();
-		Editor editor = sp.edit();
+		editor = sp.edit();
+		
+		
 		
 		runCounter = sp.getInt("runCounter", 0);
+		//Első futás-e?
 		if(runCounter==0){
 				Toast.makeText(getApplicationContext(), "Első futás", Toast.LENGTH_SHORT).show();
 				
 				runCounter = (runCounter+1);
 				editor.putInt("runCounter", runCounter);
 				editor.commit();
+				
+				
+				
 				
 				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
 				LayoutInflater inflater = MainActivity.this.getLayoutInflater();
@@ -85,24 +103,32 @@ public class MainActivity extends Activity {
 
 		
 
-		btnNewSinglePlayer = (Button) findViewById(R.id.btnNewSinglePlayer);
-		btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
-		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
-		questonMark = (ImageView) findViewById(R.id.imageView1);
-		settings = (ImageView) findViewById(R.id.imageView2);
-		userName = (TextView) findViewById(R.id.textView2);
+		
+		
+		userName.setText(sp.getString("userName", "NÉV"));
 		
 		//LocalBoradcast receiver
 		
 		BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		
 			
+		//Felhaszn.listából kiválasztott neve és id-ja	
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String message = intent.getStringExtra("name");
+				int i = intent.getIntExtra("id", 0);
 				userName.setText(message);
+				userId = i;
+				
+				//Az átvett nevet és ID-t kimentjük sharedPref-be
+				editor.putString("userName", message);
+				editor.putInt("userId", userId);
+				editor.commit();
 				
 			}
 		};
+		
+		
 		
 		LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiver, new IntentFilter("Játékos átadás"));
 		
