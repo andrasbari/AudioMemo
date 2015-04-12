@@ -112,6 +112,7 @@ public class DataManager {
 		Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();
 
 		userDao.create(user);
+		
 	}
 	
 	// legfiatalabb user lekérése a megadott névvel

@@ -40,10 +40,11 @@ public class MainActivity extends Activity {
 	private ImageView questonMark;
 	private ImageView settings;
 	private TextView userName;
+	
 	Editor editor;
 	
 	//Aktuális felhasználó azonosítója
-	private int userId;
+	private int userID;
 	
 
 	@Override
@@ -118,11 +119,11 @@ public class MainActivity extends Activity {
 				String message = intent.getStringExtra("name");
 				int i = intent.getIntExtra("id", 0);
 				userName.setText(message);
-				userId = i;
+				userID = i;
 				
 				//Az átvett nevet és ID-t kimentjük sharedPref-be
 				editor.putString("userName", message);
-				editor.putInt("userId", userId);
+				editor.putInt("userId", userID);
 				editor.commit();
 				
 			}
@@ -181,6 +182,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 1);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -193,6 +195,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 2);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -205,6 +208,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 3);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -217,6 +221,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 4);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -229,6 +234,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 5);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -241,6 +247,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 6);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -253,6 +260,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 7);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -265,6 +273,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 8);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
@@ -277,6 +286,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(), NewSinglePlayerActivity.class);
 						intent.putExtra("level", (int) 9);
+						intent.putExtra("userID",userID);
 						startActivity(intent);
 						dialog.dismiss();
 					}
