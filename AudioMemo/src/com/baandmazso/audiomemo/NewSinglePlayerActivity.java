@@ -139,6 +139,13 @@ public class NewSinglePlayerActivity extends Activity {
 		tvPlayer2Name.setVisibility(View.GONE);
 		tvPlayer2Point.setVisibility(View.GONE);
 		tvPlayer2Time.setVisibility(View.GONE);
+		
+		try {
+			tvPlayer1Name.setText(dm.getUser(userID).getName());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		RelativeLayout card_1_1 = (RelativeLayout) findViewById(R.id.card_1_1);
 		RelativeLayout card_2_1 = (RelativeLayout) findViewById(R.id.card_2_1);

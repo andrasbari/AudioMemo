@@ -105,8 +105,9 @@ public class MainActivity extends Activity {
 		
 
 		
-		
+		//Előzőleg beállított felhasználó adatai 
 		userName.setText(sp.getString("userName", "NÉV"));
+		userID = sp.getInt("userId", 0);
 		
 		//LocalBoradcast receiver
 		
