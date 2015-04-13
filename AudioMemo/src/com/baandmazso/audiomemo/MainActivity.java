@@ -16,10 +16,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.media.AudioManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -500,6 +502,29 @@ public class MainActivity extends Activity {
 
 			}
 		});
+	}
+	
+	//Hangerő állítása már a főmenüben
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+	    int action = event.getAction();
+	    int keyCode = event.getKeyCode();
+		AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+	    switch (keyCode) {
+	        case KeyEvent.KEYCODE_VOLUME_UP:
+	               // Toast.makeText(getApplicationContext(), "hangerő lenyomva", Toast.LENGTH_SHORT).show();
+	            	audio.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+	                        AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+	                return true;
+	                
+	        case KeyEvent.KEYCODE_VOLUME_DOWN:
+	            	audio.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+	                        AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+	                return true;
+	    
+	        default:
+	            return super.dispatchKeyEvent(event);
+	    }
 	}
 
 }
