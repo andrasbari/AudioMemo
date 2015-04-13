@@ -490,6 +490,10 @@ public class NewSinglePlayerActivity extends Activity {
 		Log.d("damping", "leftVolume = " + String.valueOf(leftVolume));
 		Log.d("damping", "rightVolume = " + String.valueOf(rightVolume));
 
+		float maxvolume = 0.1f; // 60% hangerő
+		leftVolume *= maxvolume;
+		rightVolume *= maxvolume;
+		
 		mp.setVolume(leftVolume, rightVolume);
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
