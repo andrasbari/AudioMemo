@@ -115,6 +115,21 @@ public class DataManager {
 		
 	}
 	
+	public User getUser(int userID) throws SQLException {
+		Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();
+
+		QueryBuilder<User, Integer> builder = userDao.queryBuilder();
+		builder.where().eq(User.FIELD_ID, userID);
+		
+		// növekvőbe kérjük le a legfitalabb usert
+		builder.orderBy(User.FIELD_BIRTH_YEAR, true);
+		
+		// max 1 lekérése
+		builder.limit(1l);
+		
+		return userDao.queryForFirst(builder.prepare());
+	}
+	
 	// legfiatalabb user lekérése a megadott névvel
 	public User getYoungestUser(String user_name) throws SQLException {
 		Dao<User, Integer> userDao = getDatabaseHelper().getUserDao();

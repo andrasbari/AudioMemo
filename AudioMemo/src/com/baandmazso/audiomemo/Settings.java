@@ -60,7 +60,7 @@ public class Settings extends Activity {
 			}
 		});
 		
-		listView1.setOnItemLongClickListener(new OnItemLongClickListener() {
+		/*listView1.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -75,7 +75,7 @@ public class Settings extends Activity {
 				cla.notifyDataSetChanged();
 				return false;
 			}
-		});
+		});*/
 
 		
 		TextView tvNewPlayer = (TextView) findViewById(R.id.textView2);

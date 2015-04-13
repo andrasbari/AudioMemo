@@ -15,7 +15,9 @@ import com.baandmazso.audiomemo.model.DataManager;
 import com.baandmazso.audiomemo.model.DatabaseHelper;
 import com.baandmazso.audiomemo.model.Game;
 import com.baandmazso.audiomemo.model.Pair;
+import com.baandmazso.audiomemo.model.Player;
 import com.baandmazso.audiomemo.model.Table;
+import com.baandmazso.audiomemo.model.User;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import android.app.Activity;
@@ -60,6 +62,7 @@ public class NewSinglePlayerActivity extends Activity {
 	int col_count = 0;
 	int row_count = 0;
 	
+	
 	int player1_click1_row = -1;
 	int player1_click1_col = -1;
 	int player1_click2_row = -1;
@@ -98,15 +101,32 @@ public class NewSinglePlayerActivity extends Activity {
 		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
 		level = getIntent().getIntExtra("level", (int) 1);
-		
-		try {
-			game = new Game(level, 1);
-			dm.saveGame(game);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+	int	userID = getIntent().getIntExtra("userID", (int) 0);
+	
+	try {
+		User user = dm.getUser(userID);
+		if(user != null){
+			
+			ArrayList<User> users = new ArrayList<User>();
+			users.add(user);
+			game = new Game(level,users);
 		}
+	} catch (SQLException e2) {
+		// TODO Auto-generated catch block
+		e2.printStackTrace();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+//		try {
+//			game = new Game(level, 1);
+//			dm.saveGame(game);
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		TextView tvPlayer1Name = (TextView) findViewById(R.id.tvPlayer1Name);
 		TextView tvPlayer1Point = (TextView) findViewById(R.id.tvPlayer1Point);

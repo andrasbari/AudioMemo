@@ -65,8 +65,9 @@ public class Game implements Serializable {
 	 * a megadott usaerek adatait átmásoljuk ugyanannyi darab player objektumba, amiket mentünk a játékhoz
 	 * @param level
 	 * @param users
+	 * @throws Exception 
 	 */
-	public Game(int level, ArrayList<User> users) {
+	public Game(int level, ArrayList<User> users) throws Exception {
 		this.level = level;
 		this.player_count = users.size();
 		for (int i = 0; i < player_count; i++) {
@@ -78,6 +79,11 @@ public class Game implements Serializable {
 			player.cloneUser(user);
 			players.add(player);
 		}
+		
+		table = new Table(level);
+
+		row_count = table.getHeight();
+		col_count = table.getWidth();
 	}
 	
 	
