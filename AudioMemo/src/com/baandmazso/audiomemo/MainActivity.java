@@ -504,7 +504,7 @@ public class MainActivity extends Activity {
 		});
 	}
 	
-	//Hangerő állítása már a főmenüben
+	//Média hangerő állítása már a főmenüben
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 	    int action = event.getAction();
