@@ -497,7 +497,7 @@ public class NewSinglePlayerActivity extends Activity {
 		Log.d("damping", "leftVolume = " + String.valueOf(leftVolume));
 		Log.d("damping", "rightVolume = " + String.valueOf(rightVolume));
 
-		float maxvolume = 0.1f; // 60% hangerő
+		float maxvolume = 1.0f; // 100% hangerő
 		leftVolume *= maxvolume;
 		rightVolume *= maxvolume;
 		
