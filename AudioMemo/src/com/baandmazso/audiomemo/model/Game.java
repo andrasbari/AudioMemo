@@ -118,6 +118,15 @@ public class Game implements Serializable {
 				if ( row == click1_row && col == click1_col) {
 					return false;
 				} else {
+					// mázli faktor detektor
+					if (isFluke(click1_row, click1_col, row, col)) {
+						try {
+							table.getNextUnShownCard().flipCards(table.getCard(row, col));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
 					showCard(row, col);
 					click2_row = row;
 					click2_col = col;
@@ -151,6 +160,31 @@ public class Game implements Serializable {
 
 	public void playSound(int row, int col, int audio_res) {
 
+	}
+	
+	/**
+	 * Ellenőrzi hogy mázli vagy sem, mázli ha még egyszer sem volt felfordítva kártya de már megtalálta a párját. Viszont olyan kártyára nem szabad mázlit alkalmazni amit már egyszer meghalgatott!
+	 * @param row1
+	 * @param col1
+	 * @param row2
+	 * @param col2
+	 * @return
+	 */
+	public boolean isFluke(int row1, int col1, int row2, int col2) {
+		if (isPair(row1, col1, row2, col2)) {
+			if (shown_cards < col_count * row_count) {
+				Card card2 = table.getCard(row2, col2);
+				// ha még eygszer sem hallgatta meg a második kártyát akkor mázli, ha már egyszer hallotta akkor emlékezhetett rá
+				if (card2.getShowCount() == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean isPair(int row1, int col1, int row2, int col2) {
+		return table.getCard(row1, col1).getAudioRes() == table.getCard(row2, col2).getAudioRes();
 	}
 
 	public void showCard(int row, int col) {

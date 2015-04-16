@@ -1,13 +1,14 @@
 package com.baandmazso.audiomemo.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * felhasználók elmentése, hogy nekelljen mindig kitölteni a játékos adatokat
+ * @author bandesz
+ *
+ */
 @DatabaseTable(tableName = User.TABLE_NAME)
 public class User implements Serializable {
 	private static final long serialVersionUID = 1543607649271615534L;

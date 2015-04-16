@@ -178,6 +178,15 @@ public class Table implements Serializable {
 		}
 		return null;
 	}
+	
+	public Card getNextUnShownCard() {
+		for (int i = 0; i < cards.size(); i++) {
+			if (((ArrayList<Card>)cards).get(i).getShowCount() == 0) {
+				return ((ArrayList<Card>)cards).get(i);
+			}
+		}
+		return null;
+	}
 
 	public void foundPair(int audio_res) {
 		for (Pair pair : pairs) {
