@@ -53,11 +53,19 @@
             android:layout_alignParentRight="true" />
             
            <TextView
-            android:id="@+id/textView5" android:layout_marginTop="10dp"
+            android:id="@+id/reachedScore" android:layout_marginTop="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:textSize="15sp"
             android:text="Elért pontszám:" 
             android:layout_below="@+id/time"/>
+           
+            <TextView
+            android:id="@+id/reachedScoreData" android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textSize="15sp"
+            android:text="00:00" 
+            android:layout_below="@+id/time"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
     
 

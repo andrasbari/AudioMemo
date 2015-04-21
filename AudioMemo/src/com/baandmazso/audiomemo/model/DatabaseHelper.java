@@ -13,7 +13,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-	public static final int DATABASE_VERSION = 32;
+	public static final int DATABASE_VERSION = 33;
 
 	private Context context;
 

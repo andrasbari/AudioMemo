@@ -17,6 +17,7 @@ public class User implements Serializable {
 	public static final String FIELD_NAME = "name";
 	public static final String FIELD_BIRTH_YEAR = "birth_year";
 	public static final String FIELD_GENDER = "gender";
+	public static final String FIELD_DGUID = "dguid"; 
 
 	public static final int GENDER_SECRET = 0;
 	public static final int GENDER_MALE = 1;
@@ -30,6 +31,8 @@ public class User implements Serializable {
 	private int birth_year;
 	@DatabaseField(columnName = FIELD_GENDER, index = true)
 	private int gender = GENDER_SECRET;
+	@DatabaseField(columnName = FIELD_DGUID, unique = true)
+	private String dguid = null;
 	
 	public User(){
 		// needed by ormLite
