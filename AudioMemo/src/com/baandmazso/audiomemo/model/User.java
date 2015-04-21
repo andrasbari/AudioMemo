@@ -15,6 +15,7 @@ public class User implements Serializable {
 	public static final String TABLE_NAME = "users";
 	public static final String FIELD_ID = "id";
 	public static final String FIELD_NAME = "name";
+	public static final String FIELD_PW = "pw";
 	public static final String FIELD_BIRTH_YEAR = "birth_year";
 	public static final String FIELD_GENDER = "gender";
 	public static final String FIELD_DGUID = "dguid"; 
@@ -27,6 +28,8 @@ public class User implements Serializable {
 	private int id = 0;
 	@DatabaseField(columnName = FIELD_NAME, index = true)
 	private String name;
+	@DatabaseField(columnName = FIELD_PW, index = true)
+	private String pw;
 	@DatabaseField(columnName = FIELD_BIRTH_YEAR, index = true)
 	private int birth_year;
 	@DatabaseField(columnName = FIELD_GENDER, index = true)
