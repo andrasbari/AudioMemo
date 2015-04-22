@@ -16,5 +16,6 @@
     </string-array>
 
     <string name="title_activity_custom_list_adapter">CustomListAdapter</string>
+    <string name="title_activity_level_select">LevelSelect</string>
 
 </resources>

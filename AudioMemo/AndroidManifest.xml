@@ -78,9 +78,13 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name="com.baandmazso.audiomemo.adapter.CustomListAdapter"
+            android:name=".adapter.CustomListAdapter"
             android:label="@string/title_activity_custom_list_adapter"
             android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".LevelSelect"
+            android:label="@string/title_activity_level_select" >
         </activity>
     </application>
 
