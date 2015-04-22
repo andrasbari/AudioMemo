@@ -374,8 +374,8 @@ public class NewSinglePlayerActivity extends Activity {
 										 flippedCard.setText(String.valueOf(flippedCards));
 										 TextView timeData = (TextView) dialogView.findViewById(R.id.timeData);
 										 timeData.setText(tvPlayer1Time.getText().toString());
-										 TextView reachedScoreData =(TextView)dialogView.findViewById(R.id.reachedScoreData);
-										 reachedScoreData.setText(String.valueOf(badPairCounter));
+										 TextView reachedScoreDataFromGame = (TextView)dialogView.findViewById(R.id.reachedScoreDataFromGameClass);
+										 reachedScoreDataFromGame.setText(String.valueOf(game.getBadPairCounter()));
 										 mp.stop();
 										 myTimeHandler.removeCallbacks(updateTimerMethod);
 										 
@@ -403,26 +403,26 @@ public class NewSinglePlayerActivity extends Activity {
 								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
 								tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
 								//Rossz pár ideiglenes próba
-								badPair=false;
-								card1 = game.getTable().getCard(player1_click1_row, player1_click1_col);
-								card2 = game.getTable().getCard(player1_click2_row, player1_click2_col);
-								cardList=game.getTable().getCards();
-									for(Card card : cardList){
-										//Megnézem az első kártyára
-										if((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>0){
-											badPair=true;
-										}
-										
-										//Megnézem a második kártyára
-										if((card2.getAudioRes()==card.getAudioRes()) && card.getShowCount()>0){
-											badPair=true;
-										}
-											
-									}
-									
-									if(badPair){
-										badPairCounter++;
-									}
+//								badPair=false;
+//								card1 = game.getTable().getCard(player1_click1_row, player1_click1_col);
+//								card2 = game.getTable().getCard(player1_click2_row, player1_click2_col);
+//								cardList=game.getTable().getCards();
+//									for(Card card : cardList){
+//										//Megnézem az első kártyára
+//										if((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>0){
+//											badPair=true;
+//										}
+//										
+//										//Megnézem a második kártyára
+//										if((card2.getAudioRes()==card.getAudioRes()) && card.getShowCount()>0){
+//											badPair=true;
+//										}
+//											
+//									}
+//									
+//									if(badPair){
+//										badPairCounter++;
+//									}
 								}
 								player1_click1_row = -1;
 								player1_click1_col = -1;

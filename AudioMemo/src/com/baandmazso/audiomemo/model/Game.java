@@ -3,6 +3,8 @@ package com.baandmazso.audiomemo.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -40,6 +42,7 @@ public class Game implements Serializable {
 	private int current_player_number = 0;
 	private int current_round = 0;
 	private int shown_cards = 0;
+	private int badPairCounter=0;
 
 	public Game() {
 
@@ -119,6 +122,8 @@ public class Game implements Serializable {
 					if (table.getCard(click1_row, click1_col).getAudioRes() == table.getCard(click2_row, click2_col).getAudioRes()) {
 						table.foundPair(table.getCard(click1_row, click1_col).getAudioRes());
 					} else {
+						//ha nem talált párt megnézzük hogy rossz párnak minősül e, azaz egy pár mind2 része szolt már mégsem azt találta meg
+						isBadPair(click1_row, click1_col, row, col);
 						
 					}
 
@@ -183,6 +188,35 @@ public class Game implements Serializable {
 
 	public void foundPair(int audio_res) {
 
+	}
+	
+	public void isBadPair(int row1, int col1, int row2, int col2){
+		Card card1 = table.getCard(row1, col1);
+		Card card2 = table.getCard(row2, col2);
+		List<Card> cardList = table.getCards();
+		Boolean badPair=false;
+		
+			/*for(Card card : cardList){
+				if(((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>1) && (card1.getPositionCol()!=card.getPositionCol() && card1.getPositionRow()!=card.getPositionRow()) ){
+					badPair=true;
+					
+				}
+				
+				//Megnézem a második kártyára
+				if(((card2.getAudioRes()==card.getAudioRes()) && card.getShowCount()>1) && (card2.getPositionCol()!=card.getPositionCol() && card2.getPositionRow()!=card.getPositionRow()) ){
+					badPair=true;
+				}
+			}*/
+		
+		
+			if(badPair){
+				badPairCounter++;
+			}
+		
+	}
+	
+	public int getBadPairCounter() {
+		return badPairCounter;
 	}
 
 	public void nextPlayer() {
