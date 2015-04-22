@@ -18,12 +18,6 @@
             android:id="@+id/btnNewSinglePlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Single Player" />
-
-        <Button
-            android:id="@+id/btnSinglePlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Single Player" />
 
         <Button

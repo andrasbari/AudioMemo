@@ -55,7 +55,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		btnNewSinglePlayer = (Button) findViewById(R.id.btnNewSinglePlayer);
-		btnSinglePlayer = (Button) findViewById(R.id.btnSinglePlayer);
 		btnMultiPlayer = (Button) findViewById(R.id.btnMultiPlayer);
 		questonMark = (ImageView) findViewById(R.id.imageView1);
 		settings = (ImageView) findViewById(R.id.imageView2);

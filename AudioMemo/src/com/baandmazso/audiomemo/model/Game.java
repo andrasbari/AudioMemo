@@ -197,7 +197,7 @@ public class Game implements Serializable {
 		Boolean badPair=false;
 		
 			for(Card card : cardList){
-				if(((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>1) && (card1.getPositionCol()!=card.getPositionCol() && card1.getPositionRow()!=card.getPositionRow())){
+				if((card1.getAudioRes()==card.getAudioRes()) && (card1.getPositionCol()!=card.getPositionCol() && card1.getPositionRow()!=card.getPositionRow()) && card.getShowCount()>0  ){
 					badPair=true;
 					
 				}
