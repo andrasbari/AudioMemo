@@ -62,12 +62,7 @@ public class NewSinglePlayerActivity extends Activity {
 	int col_count = 0;
 	int row_count = 0;
 	
-	//Rossz pár detektálás segédváltozói
-	Card card1;
-	Card card2;
-	List<Card> cardList;
-	boolean badPair;
-	int badPairCounter=0;
+	
 	
 	
 	int player1_click1_row = -1;
@@ -402,27 +397,7 @@ public class NewSinglePlayerActivity extends Activity {
 								}else{
 								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
 								tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
-								//Rossz pár ideiglenes próba
-//								badPair=false;
-//								card1 = game.getTable().getCard(player1_click1_row, player1_click1_col);
-//								card2 = game.getTable().getCard(player1_click2_row, player1_click2_col);
-//								cardList=game.getTable().getCards();
-//									for(Card card : cardList){
-//										//Megnézem az első kártyára
-//										if((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>0){
-//											badPair=true;
-//										}
-//										
-//										//Megnézem a második kártyára
-//										if((card2.getAudioRes()==card.getAudioRes()) && card.getShowCount()>0){
-//											badPair=true;
-//										}
-//											
-//									}
-//									
-//									if(badPair){
-//										badPairCounter++;
-//									}
+								
 								}
 								player1_click1_row = -1;
 								player1_click1_col = -1;
