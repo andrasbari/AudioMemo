@@ -196,17 +196,13 @@ public class Game implements Serializable {
 		List<Card> cardList = table.getCards();
 		Boolean badPair=false;
 		
-			/*for(Card card : cardList){
-				if(((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>1) && (card1.getPositionCol()!=card.getPositionCol() && card1.getPositionRow()!=card.getPositionRow()) ){
+			for(Card card : cardList){
+				if(((card1.getAudioRes()==card.getAudioRes()) && card.getShowCount()>1) && (card1.getPositionCol()!=card.getPositionCol() && card1.getPositionRow()!=card.getPositionRow())){
 					badPair=true;
 					
 				}
 				
-				//Megnézem a második kártyára
-				if(((card2.getAudioRes()==card.getAudioRes()) && card.getShowCount()>1) && (card2.getPositionCol()!=card.getPositionCol() && card2.getPositionRow()!=card.getPositionRow()) ){
-					badPair=true;
-				}
-			}*/
+			}
 		
 		
 			if(badPair){
