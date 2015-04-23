@@ -381,6 +381,7 @@ public class NewSinglePlayerActivity extends Activity {
 										 public void onClick(DialogInterface dialog, int which) {
 											 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 											 startActivity(intent);*/ 
+											 game.getJsonStr();
 											 dialog.dismiss();
 											 finish();
 										 }

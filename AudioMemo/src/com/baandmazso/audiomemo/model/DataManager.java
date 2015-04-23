@@ -54,6 +54,10 @@ public class DataManager {
 			dm.databaseHelper = null;
 		}
 	}
+	
+	public static Context getContext() {
+		return dm.context;
+	}
 
 	public Card getCard(String domain_name) {
 		/*try {

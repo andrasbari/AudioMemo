@@ -1,14 +1,22 @@
 package com.baandmazso.audiomemo.model;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -208,5 +216,33 @@ public class Table implements Serializable {
 
 	public Collection<Pair> getPairs() {
 		return pairs;
+	}
+	
+	public JSONObject getJsonObj() {
+		JSONObject jsonObj = null;
+		JSONArray jsonArr = null;
+		try {
+			jsonObj = new JSONObject();
+			jsonObj.put("id", id);
+			jsonObj.put("level", level);
+			jsonObj.put("width", width);
+			jsonObj.put("height", height);
+			jsonArr = new JSONArray();
+			for (Card card : cards) {
+				jsonArr.put(card.getJsonObj());
+			}
+			jsonObj.put("cards", jsonArr);
+			jsonArr = new JSONArray();
+			for (Pair pair : pairs) {
+				jsonArr.put(pair.getJsonObj());
+			}
+			jsonObj.put("pairs", jsonArr);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		return jsonObj;
 	}
 }

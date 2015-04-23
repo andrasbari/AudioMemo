@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -64,5 +67,22 @@ public class Player implements Serializable {
 		}
 		this.gender = user.getGender();
 		this.birth_year = user.getBirth_year();
+	}
+	
+	public JSONObject getJsonObj() {
+		JSONObject jsonObj = null;
+		try {
+			jsonObj = new JSONObject();
+			jsonObj.put("id", id);
+			jsonObj.put("name", name);
+			jsonObj.put("birth_year", birth_year);
+			jsonObj.put("gender", gender);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		return jsonObj;
 	}
 }

@@ -3,6 +3,10 @@ package com.baandmazso.audiomemo.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -106,5 +110,25 @@ public class Pair implements Serializable {
 
 	public void setTable(Table table) {
 		this.table = table;
+	}
+	
+	public JSONObject getJsonObj() {
+		JSONObject jsonObj = null;
+		JSONArray jsonArr = null;
+		try {
+			jsonObj = new JSONObject();
+			jsonObj.put("id", id);
+			jsonObj.put("audio_res", audio_res);
+			jsonObj.put("card1", card1.getJsonObj());
+			jsonObj.put("card2", card2.getJsonObj());
+			jsonObj.put("found", found);
+			jsonObj.put("player", player.getJsonObj());
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		return jsonObj;
 	}
 }

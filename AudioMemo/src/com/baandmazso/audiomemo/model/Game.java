@@ -1,9 +1,20 @@
 package com.baandmazso.audiomemo.model;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -250,5 +261,40 @@ public class Game implements Serializable {
 
 	public Card getCurrent_card() {
 		return current_card;
+	}
+	
+	public String getJsonStr() {
+		JSONObject jsonObj = null;
+		JSONArray jsonArr = null;
+		try {
+			jsonObj = new JSONObject();
+			jsonObj.put("id", id);
+			jsonObj.put("level", level);
+			jsonObj.put("player_count", player_count);
+			jsonObj.put("table", table.getJsonObj());
+			jsonArr = new JSONArray();
+			for (Player player : players) {
+				jsonArr.put(player.getJsonObj());
+			}
+			jsonObj.put("players", jsonArr);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		String json = jsonObj.toString();
+		Log.d("json", json);
+		
+		try {
+			FileOutputStream outputStream;
+			File file = new File(DataManager.getContext().getExternalFilesDir("games"), new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".json");
+			 outputStream = new FileOutputStream(file);
+			  outputStream.write(json.getBytes());
+			  outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return json;
 	}
 }

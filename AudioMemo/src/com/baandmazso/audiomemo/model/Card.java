@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -113,5 +117,29 @@ public class Card implements Serializable {
 
 	public void setTable(Table table) {
 		this.table = table;
+	}
+	
+	public JSONObject getJsonObj() {
+		JSONObject jsonObj = null;
+		JSONArray jsonArr = null;
+		try {
+			jsonObj = new JSONObject();
+			jsonObj.put("id", id);
+			jsonObj.put("audio_res", audio_res);
+			jsonObj.put("show_count", show_count);
+			jsonObj.put("position_row", position_row);
+			jsonObj.put("position_col", position_col);
+			jsonArr = new JSONArray();
+			for (Date date : shown) {
+				jsonArr.put(date.getTime());
+			}
+			jsonObj.put("shown", jsonArr);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		return jsonObj;
 	}
 }
