@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo;
+package net.bandesz.auditorymemorygame;
 
 
 
@@ -10,14 +10,11 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.baandmazso.audiomemo.model.Card;
-import com.baandmazso.audiomemo.model.DataManager;
-import com.baandmazso.audiomemo.model.DatabaseHelper;
-import com.baandmazso.audiomemo.model.Game;
-import com.baandmazso.audiomemo.model.Pair;
-import com.baandmazso.audiomemo.model.Player;
-import com.baandmazso.audiomemo.model.Table;
-import com.baandmazso.audiomemo.model.User;
+import net.bandesz.auditorymemorygame.model.Card;
+import net.bandesz.auditorymemorygame.model.DataManager;
+import net.bandesz.auditorymemorygame.model.DatabaseHelper;
+import net.bandesz.auditorymemorygame.model.Pair;
+import net.bandesz.auditorymemorygame.model.Table;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import android.app.Activity;
@@ -30,7 +27,6 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,13 +38,12 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewSinglePlayerActivity extends Activity {
+public class SinglePlayerActivity extends Activity {
 	private MediaPlayer mp;
 	private DataManager dm;
 	
@@ -57,14 +52,12 @@ public class NewSinglePlayerActivity extends Activity {
 	private int level;
 	private int selected;
 
-	private Game game;
+	private Table table;
 
 	int col_count = 0;
 	int row_count = 0;
 	
-	
-	
-	
+
 	int player1_click1_row = -1;
 	int player1_click1_col = -1;
 	int player1_click2_row = -1;
@@ -80,15 +73,6 @@ public class NewSinglePlayerActivity extends Activity {
 	int player2_click2_col = -1;
 	
 	int flippedCards=0;
-	
-	long startTime = 0L;
-	long timeInMillies = 0L;
-	long timeSwap = 0L;
-	long finalTime = 0L;
-	
-	private TextView tvPlayer1Time;
-	private Handler myTimeHandler = new Handler();
-	private boolean isTimerStarted = false;
 
 	private ArrayList<ArrayList<RelativeLayout>> tableLayout = new ArrayList<ArrayList<RelativeLayout>>();
 
@@ -98,56 +82,34 @@ public class NewSinglePlayerActivity extends Activity {
 		setContentView(R.layout.table);
 		
 		dm = DataManager.getInstance(getApplicationContext());
-
-		
-		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
-
-		level = getIntent().getIntExtra("level", (int) 1);
-	int	userID = getIntent().getIntExtra("userID", (int) 0);
-	
-	try {
-		User user = dm.getUser(userID);
-		if(user != null){
-			
-			ArrayList<User> users = new ArrayList<User>();
-			users.add(user);
-			game = new Game(level,users);
-		}
-	} catch (SQLException e2) {
-		// TODO Auto-generated catch block
-		e2.printStackTrace();
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		
-//		try {
-//			game = new Game(level, 1);
-//			dm.saveGame(game);
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
-		TextView tvPlayer1Name = (TextView) findViewById(R.id.tvPlayer1Name);
-		TextView tvPlayer1Point = (TextView) findViewById(R.id.tvPlayer1Point);
-		tvPlayer1Time = (TextView) findViewById(R.id.tvPlayer1Time);
-		TextView tvPlayer2Name = (TextView) findViewById(R.id.tvPlayer2Name);
-		TextView tvPlayer2Point = (TextView) findViewById(R.id.tvPlayer2Point);
-		TextView tvPlayer2Time = (TextView) findViewById(R.id.tvPlayer2Time);
-		ImageView ivPlayPause = (ImageView) findViewById(R.id.ivPlayPause);
-		
-		tvPlayer2Name.setVisibility(View.GONE);
-		tvPlayer2Point.setVisibility(View.GONE);
-		tvPlayer2Time.setVisibility(View.GONE);
-		
 		try {
-			tvPlayer1Name.setText(dm.getUser(userID).getName());
+			OpenHelperManager.getHelper(getApplicationContext(), DatabaseHelper.class).getCardDao();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
+
+		level = getIntent().getIntExtra("level", (int) 1);
+
+		try {
+			table = new Table(level);
+			dm.getDatabaseHelper().getTableDao().createOrUpdate(table);
+			ArrayList<Card> cards = (ArrayList<Card>) table.getCards();
+			for (Card card : cards) {
+				card.setTable(table);
+				try {
+					dm.getDatabaseHelper().getCardDao().createOrUpdate(card);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 
 		RelativeLayout card_1_1 = (RelativeLayout) findViewById(R.id.card_1_1);
 		RelativeLayout card_2_1 = (RelativeLayout) findViewById(R.id.card_2_1);
@@ -263,13 +225,13 @@ public class NewSinglePlayerActivity extends Activity {
 		tmpSet6.add(card_8_6);
 		tableLayout.add(tmpSet6);
 
-		row_count = game.getTable().getHeight();
-		col_count = game.getTable().getWidth();
+		row_count = table.getHeight();
+		col_count = table.getWidth();
 
 		for (int row = 0; row < tableLayout.size(); row++) {
 			for (int col = 0; col < tableLayout.get(row).size(); col++) {
 				RelativeLayout rl = tableLayout.get(row).get(col);
-				if (col < game.getTable().getWidth() && row < game.getTable().getHeight()) {
+				if (col < table.getWidth() && row < table.getHeight()) {
 					final int fcol = col;
 					final int frow = row;
 
@@ -277,138 +239,116 @@ public class NewSinglePlayerActivity extends Activity {
 					rl.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							if (!game.clickCard(frow, fcol)) {
-								return;
-							}
-							
-							Card currCard = game.getCurrent_card();
-							playSound(frow, fcol, currCard.getAudioRes());
-							
-							if (player1_click1_row < 0) {
-								player1_click1_row = frow;
-								player1_click1_col = fcol;
-								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
-								selected++;
-								flippedCards++;
-								//Első lap fordításkor elindítja az időmérést
-								if(!isTimerStarted){
-									startTime = SystemClock.uptimeMillis();
-									myTimeHandler.postDelayed(updateTimerMethod, 1000);
-									isTimerStarted=true;
-								}
-								
-								if(selected==3){
-									if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
-										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
-										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.TRANSPARENT);
+							if (table.getCard(frow, fcol) != null) {
+								Card currCard = table.getCard(frow, fcol);
+								playSound(frow, fcol, currCard.getAudioRes());
+								currCard.show();
+								if (player1_click1_row < 0) {
+									player1_click1_row = frow;
+									player1_click1_col = fcol;
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
+									selected++;
+									flippedCards++;
+									
+									if(selected==3){
+										if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
+											tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
+											tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
+											
+											player1_prev_click1_row = player1_click1_row;
+											player1_prev_click1_col = player1_click1_col;
+											
+											selected=1;
 										
-										player1_prev_click1_row = player1_click1_row;
-										player1_prev_click1_col = player1_click1_col;
-										
-										selected=1;
-									
-									}else if(((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))){
-										tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118,118,118));
-										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.TRANSPARENT);
-										
-										player1_prev_click1_row = player1_click1_row;
-										player1_prev_click1_col = player1_click1_col;
-										
-										selected=1;
-									}else{
-										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.TRANSPARENT);
-										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.TRANSPARENT);
-										
-										player1_prev_click1_row = player1_click1_row;
-										player1_prev_click1_col = player1_click1_col;
-										
-										selected=1;
-									}
-								}else{
-									
-									player1_prev_click1_row = player1_click1_row;
-									player1_prev_click1_col = player1_click1_col;
-								}
-								
-								
-								
-							} else if (player1_click2_row < 0) {
-								player1_click2_row = frow;
-								player1_click2_col = fcol;
-								player1_prev_click2_row = player1_click2_row;
-								player1_prev_click2_col = player1_click2_col;
-								selected++;
-								flippedCards++;
-								
-								
-								// ha az első kártya klikk és a második kártya klikk nem egyezik
-								if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
-										&& game.getTable().getCard(player1_click1_row, player1_click1_col).getAudioRes() == game.getTable().getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
-									game.getTable().foundPair(new Pair(currCard.getAudioRes()));
-									tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
-									tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
-									
-									tableLayout.get(player1_click1_row).get(player1_click1_col).startAnimation(animAlpha);
-									tableLayout.get(player1_click2_row).get(player1_click2_col).startAnimation(animAlpha);
-									
-									tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
-									tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
-									
-									
-				
-									        	
-
-									// megtaláltam az összes párt
-									if (game.getTable().getFoundpairs() == col_count*row_count/2) {
-									
-										AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
-										 LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
-										 View dialogView = inflater.inflate(R.layout.game_finish, null);
-										 dialogBuilder.setView(dialogView);
-										 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
-										 flippedCard.setText(String.valueOf(flippedCards));
-										 TextView timeData = (TextView) dialogView.findViewById(R.id.timeData);
-										 timeData.setText(tvPlayer1Time.getText().toString());
-										 TextView reachedScoreDataFromGame = (TextView)dialogView.findViewById(R.id.reachedScoreDataFromGameClass);
-										 reachedScoreDataFromGame.setText(String.valueOf(game.getBadPairCounter()));
-										 mp.stop();
-										 myTimeHandler.removeCallbacks(updateTimerMethod);
-										 
-										 
-
-										 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-										 @Override
-										 public void onClick(DialogInterface dialog, int which) {
-											 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-											 startActivity(intent);*/ 
-											 game.getJsonStr();
-											 dialog.dismiss();
-											 finish();
-										 }
-										 });
-										 final  AlertDialog dialog =  dialogBuilder.create();
-										 dialog.show();
-										 
-										 try {
-											dm.saveGame(game);
-										} catch (SQLException e) {
-											e.printStackTrace();
+										}else if(((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))){
+											tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118,118,118));
+											tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
+											
+											player1_prev_click1_row = player1_click1_row;
+											player1_prev_click1_col = player1_click1_col;
+											
+											selected=1;
+										}else{
+											tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(0,0,0));
+											tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.rgb(0, 0, 0));
+											
+											player1_prev_click1_row = player1_click1_row;
+											player1_prev_click1_col = player1_click1_col;
+											
+											selected=1;
 										}
+									}else{
+										
+										player1_prev_click1_row = player1_click1_row;
+										player1_prev_click1_col = player1_click1_col;
 									}
-								}else{
-								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
-								tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
-								
+									
+									
+									
+								} else if (player1_click2_row < 0) {
+									player1_click2_row = frow;
+									player1_click2_col = fcol;
+									player1_prev_click2_row = player1_click2_row;
+									player1_prev_click2_col = player1_click2_col;
+									selected++;
+									flippedCards++;
+									
+									
+									// ha az első kártya klikk és a második kártya klikk nem egyezik
+									if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
+											&& table.getCard(player1_click1_row, player1_click1_col).getAudioRes() == table.getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
+										table.foundPair(new Pair(currCard.getAudioRes()));
+										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
+										tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
+										
+										tableLayout.get(player1_click1_row).get(player1_click1_col).startAnimation(animAlpha);
+										tableLayout.get(player1_click2_row).get(player1_click2_col).startAnimation(animAlpha);
+										
+										tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
+										tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
+					
+										        	
+
+										
+										if (table.getFoundpairs() == col_count*row_count/2) {
+										
+											AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SinglePlayerActivity.this);
+											 LayoutInflater inflater = SinglePlayerActivity.this.getLayoutInflater();
+											 View dialogView = inflater.inflate(R.layout.game_finish, null);
+											 dialogBuilder.setView(dialogView);
+											 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
+											 flippedCard.setText(String.valueOf(flippedCards));
+											 mp.stop();
+											 
+											 
+
+											 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+											 @Override
+											 public void onClick(DialogInterface dialog, int which) {
+												 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+												 startActivity(intent);*/ 
+												 dialog.dismiss();
+												 finish();
+											 }
+											 });
+											 final  AlertDialog dialog =  dialogBuilder.create();
+											 dialog.show();
+										}
+									}else{
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+									tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
+									}
+									player1_click1_row = -1;
+									player1_click1_col = -1;
+									player1_click2_row = -1;
+									player1_click2_col = -1;
+								} else {
+									
+									player1_click1_row = -1;
+									player1_click1_col = -1;
+									player1_click2_row = -1;
+									player1_click2_col = -1;
 								}
-								player1_click1_row = -1;
-								player1_click1_col = -1;
-								player1_click2_row = -1;
-								player1_click2_col = -1;
-							} else {
-								player1_click1_row = -1;
-								player1_click1_col = -1;
-								player1_click2_row = -1;
-								player1_click2_col = -1;
 							}
 						}
 					});
@@ -416,7 +356,7 @@ public class NewSinglePlayerActivity extends Activity {
 					rl.setVisibility(View.GONE);
 				}
 			}
-			if (row < game.getTable().getHeight()) {
+			if (row < table.getHeight()) {
 				((View) tableLayout.get(row).get(0).getParent()).setVisibility(View.VISIBLE);
 			} else {
 				((View) tableLayout.get(row).get(0).getParent()).setVisibility(View.GONE);
@@ -433,31 +373,6 @@ public class NewSinglePlayerActivity extends Activity {
 		 * @Override public boolean onTouch(View v, MotionEvent event) { switch (event.getAction()) { case MotionEvent.ACTION_DOWN: v.setBackgroundColor(Color.argb(255, 192, 64, 64)); playSound(i2, k2); break; case MotionEvent.ACTION_UP:
 		 * v.setBackgroundColor(Color.argb(0, 0, 0, 0)); stopSound(); break; } return true; } }); cells.add(cell); } }
 		 */
-		
-		ivPlayPause.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
-				LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
-				View dialogView = inflater.inflate(R.layout.game_pause, null);
-				dialogBuilder.setView(dialogView);
-				timeSwap += timeInMillies;
-				myTimeHandler.removeCallbacks(updateTimerMethod);
-
-				dialogBuilder.setPositiveButton("Folytatás", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						startTime = SystemClock.uptimeMillis();
-						myTimeHandler.postDelayed(updateTimerMethod, 1000);
-						
-					}
-				});
-				final AlertDialog dialog = dialogBuilder.create();
-				dialog.show();
-			}
-		});
 	}
 
 	private void playSound(int row, int col, int res) {
@@ -505,10 +420,6 @@ public class NewSinglePlayerActivity extends Activity {
 		Log.d("damping", "leftVolume = " + String.valueOf(leftVolume));
 		Log.d("damping", "rightVolume = " + String.valueOf(rightVolume));
 
-		float maxvolume = 1.0f; // 100% hangerő
-		leftVolume *= maxvolume;
-		rightVolume *= maxvolume;
-		
 		mp.setVolume(leftVolume, rightVolume);
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
@@ -532,20 +443,4 @@ public class NewSinglePlayerActivity extends Activity {
 		stopSound();
 		super.onBackPressed();
 	}
-	
-private Runnable updateTimerMethod = new Runnable() {
-		
-		@Override
-		public void run() {
-			timeInMillies = SystemClock.uptimeMillis()-startTime;
-			finalTime = timeSwap+timeInMillies;
-			int seconds = (int)(finalTime/1000);
-			int minutes = seconds/60;
-			
-			
-			tvPlayer1Time.setText(""+String.format("%02d",minutes)+":"+String.format("%02d", (seconds%60)));
-			myTimeHandler.postDelayed(this, 1000);
-			
-		}
-	};
 }

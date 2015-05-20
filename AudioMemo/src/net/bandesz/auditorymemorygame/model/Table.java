@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo.model;
+package net.bandesz.auditorymemorygame.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.baandmazso.audiomemo.R;
+import net.bandesz.auditorymemorygame.R;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;

@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo;
+package net.bandesz.auditorymemorygame;
 
 import android.app.Activity;
 import android.content.Intent;

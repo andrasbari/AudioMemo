@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo.model;
+package net.bandesz.auditorymemorygame.model;
 
 import java.io.Serializable;
 import com.j256.ormlite.field.DatabaseField;

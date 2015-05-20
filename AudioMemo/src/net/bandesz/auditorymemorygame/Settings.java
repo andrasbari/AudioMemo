@@ -1,12 +1,12 @@
-package com.baandmazso.audiomemo;
+package net.bandesz.auditorymemorygame;
 
 
 
 
 import java.sql.SQLException;
 
-import com.baandmazso.audiomemo.adapter.CustomListAdapter;
-import com.baandmazso.audiomemo.model.DataManager;
+import net.bandesz.auditorymemorygame.adapter.CustomListAdapter;
+import net.bandesz.auditorymemorygame.model.DataManager;
 
 import android.app.Activity;
 import android.content.Intent;

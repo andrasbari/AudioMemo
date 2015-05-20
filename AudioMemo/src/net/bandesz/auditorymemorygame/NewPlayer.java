@@ -1,10 +1,10 @@
-package com.baandmazso.audiomemo;
+package net.bandesz.auditorymemorygame;
 
 
 import java.sql.SQLException;
 
-import com.baandmazso.audiomemo.model.DataManager;
-import com.baandmazso.audiomemo.model.User;
+import net.bandesz.auditorymemorygame.model.DataManager;
+import net.bandesz.auditorymemorygame.model.User;
 import com.j256.ormlite.field.DatabaseField;
 
 import android.app.Activity;

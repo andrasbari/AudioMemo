@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo.model;
+package net.bandesz.auditorymemorygame.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

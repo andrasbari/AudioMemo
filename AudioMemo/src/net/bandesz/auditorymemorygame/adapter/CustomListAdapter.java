@@ -1,4 +1,4 @@
-package com.baandmazso.audiomemo.adapter;
+package net.bandesz.auditorymemorygame.adapter;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-import com.baandmazso.audiomemo.R;
-import com.baandmazso.audiomemo.R.id;
-import com.baandmazso.audiomemo.R.layout;
-import com.baandmazso.audiomemo.model.User;
+import net.bandesz.auditorymemorygame.R;
+import net.bandesz.auditorymemorygame.R.id;
+import net.bandesz.auditorymemorygame.R.layout;
+import net.bandesz.auditorymemorygame.model.User;
 
 import android.app.Activity;
 import android.content.Context;
