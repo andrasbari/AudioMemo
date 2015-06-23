@@ -1,8 +1,15 @@
-package net.bandesz.auditorymemorygame.model;
+package net.bandesz.auditorymemorygame;
 
 import java.io.File;
 import java.sql.SQLException;
 
+import net.bandesz.auditorymemorygame.model.Card;
+import net.bandesz.auditorymemorygame.model.Game;
+import net.bandesz.auditorymemorygame.model.MemoryTable;
+import net.bandesz.auditorymemorygame.model.Pair;
+import net.bandesz.auditorymemorygame.model.Player;
+import net.bandesz.auditorymemorygame.model.Table;
+import net.bandesz.auditorymemorygame.model.User;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -13,17 +20,17 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-	public static final int DATABASE_VERSION = 33;
+	public static final int					DATABASE_VERSION	= 33;
 
-	private Context context;
+	private Context							context;
 
-	private Dao<Card, Integer> CardDao;
-	private Dao<Game, Integer> GameDao;
-	private Dao<MemoryTable, Integer> MemoryTableDao;
-	private Dao<Pair, Integer> PairDao;
-	private Dao<Player, Integer> PlayerDao;
-	private Dao<Table, Integer> TableDao;
-	private Dao<User, Integer> UserDao;
+	private Dao<Card, Integer>				CardDao;
+	private Dao<Game, Integer>				GameDao;
+	private Dao<MemoryTable, Integer>	MemoryTableDao;
+	private Dao<Pair, Integer>				PairDao;
+	private Dao<Player, Integer>			PlayerDao;
+	private Dao<Table, Integer>			TableDao;
+	private Dao<User, Integer>				UserDao;
 
 	public DatabaseHelper(Context context) {
 		super(context, context.getExternalFilesDir("") + File.separator + "audiomemo.sqlite3", null, DATABASE_VERSION);
@@ -39,7 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, Card.class);
 			TableUtils.createTable(connectionSource, Game.class);
 			TableUtils.createTable(connectionSource, Player.class);
-			//TableUtils.createTable(connectionSource, MemoryTable.class);
+			// TableUtils.createTable(connectionSource, MemoryTable.class);
 			TableUtils.createTable(connectionSource, Pair.class);
 			TableUtils.createTable(connectionSource, User.class);
 		} catch (SQLException e) {
@@ -57,7 +64,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			}
 			TableUtils.dropTable(connectionSource, Card.class, true);
 			TableUtils.dropTable(connectionSource, Game.class, true);
-			//TableUtils.dropTable(connectionSource, MemoryTable.class, true);
+			// TableUtils.dropTable(connectionSource, MemoryTable.class, true);
 			TableUtils.dropTable(connectionSource, Pair.class, true);
 			TableUtils.dropTable(connectionSource, Player.class, true);
 			TableUtils.dropTable(connectionSource, Table.class, true);
@@ -109,7 +116,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return TableDao;
 	}
-	
+
 	public Dao<User, Integer> getUserDao() throws SQLException {
 		if (UserDao == null) {
 			UserDao = getDao(User.class);

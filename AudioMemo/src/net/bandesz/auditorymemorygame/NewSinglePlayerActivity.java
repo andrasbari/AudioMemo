@@ -1,135 +1,109 @@
 package net.bandesz.auditorymemorygame;
 
-
-
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import net.bandesz.auditorymemorygame.model.Card;
-import net.bandesz.auditorymemorygame.model.DataManager;
-import net.bandesz.auditorymemorygame.model.DatabaseHelper;
+import net.bandesz.auditorymemorygame.DataManager;
 import net.bandesz.auditorymemorygame.model.Game;
 import net.bandesz.auditorymemorygame.model.Pair;
-import net.bandesz.auditorymemorygame.model.Player;
-import net.bandesz.auditorymemorygame.model.Table;
 import net.bandesz.auditorymemorygame.model.User;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class NewSinglePlayerActivity extends Activity {
-	private MediaPlayer mp;
-	private DataManager dm;
-	
-	protected static final String TAG = null;
+	private MediaPlayer									mp;
+	private DataManager									dm;
 
-	private int level;
-	private int selected;
+	protected static final String						TAG						= null;
 
-	private Game game;
+	private int												level;
+	private int												selected;
 
-	int col_count = 0;
-	int row_count = 0;
-	
-	
-	
-	
-	int player1_click1_row = -1;
-	int player1_click1_col = -1;
-	int player1_click2_row = -1;
-	int player1_click2_col = -1;
-	int player1_prev_click1_row;
-	int player1_prev_click1_col;
-	int player1_prev_click2_row;
-	int player1_prev_click2_col;
+	private Game											game;
 
-	int player2_click1_row = -1;
-	int player2_click1_col = -1;
-	int player2_click2_row = -1;
-	int player2_click2_col = -1;
-	
-	int flippedCards=0;
-	
-	long startTime = 0L;
-	long timeInMillies = 0L;
-	long timeSwap = 0L;
-	long finalTime = 0L;
-	
-	private TextView tvPlayer1Time;
-	private Handler myTimeHandler = new Handler();
-	private boolean isTimerStarted = false;
+	int														col_count				= 0;
+	int														row_count				= 0;
 
-	private ArrayList<ArrayList<RelativeLayout>> tableLayout = new ArrayList<ArrayList<RelativeLayout>>();
+	int														player1_click1_row	= -1;
+	int														player1_click1_col	= -1;
+	int														player1_click2_row	= -1;
+	int														player1_click2_col	= -1;
+	int														player1_prev_click1_row;
+	int														player1_prev_click1_col;
+	int														player1_prev_click2_row;
+	int														player1_prev_click2_col;
+
+	int														player2_click1_row	= -1;
+	int														player2_click1_col	= -1;
+	int														player2_click2_row	= -1;
+	int														player2_click2_col	= -1;
+
+	int														flippedCards			= 0;
+
+	long														startTime				= 0L;
+	long														timeInMillies			= 0L;
+	long														timeSwap					= 0L;
+	long														finalTime				= 0L;
+
+	private TextView										tvPlayer1Time;
+	private Handler										myTimeHandler			= new Handler();
+	private boolean										isTimerStarted			= false;
+
+	private ArrayList<ArrayList<RelativeLayout>>	tableLayout				= new ArrayList<ArrayList<RelativeLayout>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.table);
-		
+
 		dm = DataManager.getInstance(getApplicationContext());
 
-		
 		final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
 		level = getIntent().getIntExtra("level", (int) 1);
-	int	userID = getIntent().getIntExtra("userID", (int) 0);
-	
-	try {
-		User user = dm.getUser(userID);
-		if(user != null){
-			
-			ArrayList<User> users = new ArrayList<User>();
-			users.add(user);
-			game = new Game(level,users);
+		int userID = getIntent().getIntExtra("userID", (int) 0);
+
+		try {
+			User user = dm.getUser(userID);
+			if (user != null) {
+
+				ArrayList<User> users = new ArrayList<User>();
+				users.add(user);
+				game = new Game(level, users);
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	} catch (SQLException e2) {
-		// TODO Auto-generated catch block
-		e2.printStackTrace();
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		
-//		try {
-//			game = new Game(level, 1);
-//			dm.saveGame(game);
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
+
+		// try {
+		// game = new Game(level, 1);
+		// dm.saveGame(game);
+		// } catch (SQLException e1) {
+		// e1.printStackTrace();
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+
 		TextView tvPlayer1Name = (TextView) findViewById(R.id.tvPlayer1Name);
 		TextView tvPlayer1Point = (TextView) findViewById(R.id.tvPlayer1Point);
 		tvPlayer1Time = (TextView) findViewById(R.id.tvPlayer1Time);
@@ -137,11 +111,11 @@ public class NewSinglePlayerActivity extends Activity {
 		TextView tvPlayer2Point = (TextView) findViewById(R.id.tvPlayer2Point);
 		TextView tvPlayer2Time = (TextView) findViewById(R.id.tvPlayer2Time);
 		ImageView ivPlayPause = (ImageView) findViewById(R.id.ivPlayPause);
-		
+
 		tvPlayer2Name.setVisibility(View.GONE);
 		tvPlayer2Point.setVisibility(View.GONE);
 		tvPlayer2Time.setVisibility(View.GONE);
-		
+
 		try {
 			tvPlayer1Name.setText(dm.getUser(userID).getName());
 		} catch (SQLException e1) {
@@ -280,58 +254,56 @@ public class NewSinglePlayerActivity extends Activity {
 							if (!game.clickCard(frow, fcol)) {
 								return;
 							}
-							
+
 							Card currCard = game.getCurrent_card();
 							playSound(frow, fcol, currCard.getAudioRes());
-							
+
 							if (player1_click1_row < 0) {
 								player1_click1_row = frow;
 								player1_click1_col = fcol;
 								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
 								selected++;
 								flippedCards++;
-								//Első lap fordításkor elindítja az időmérést
-								if(!isTimerStarted){
+								// Első lap fordításkor elindítja az időmérést
+								if (!isTimerStarted) {
 									startTime = SystemClock.uptimeMillis();
 									myTimeHandler.postDelayed(updateTimerMethod, 1000);
-									isTimerStarted=true;
+									isTimerStarted = true;
 								}
-								
-								if(selected==3){
-									if(((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))){
-										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118,118,118));
+
+								if (selected == 3) {
+									if (((player1_click1_row == player1_prev_click1_row) && (player1_click1_col == player1_prev_click1_col))) {
+										tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(118, 118, 118));
 										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.TRANSPARENT);
-										
+
 										player1_prev_click1_row = player1_click1_row;
 										player1_prev_click1_col = player1_click1_col;
-										
-										selected=1;
-									
-									}else if(((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))){
-										tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118,118,118));
+
+										selected = 1;
+
+									} else if (((player1_click1_row == player1_prev_click2_row) && (player1_click1_col == player1_prev_click2_col))) {
+										tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(118, 118, 118));
 										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.TRANSPARENT);
-										
+
 										player1_prev_click1_row = player1_click1_row;
 										player1_prev_click1_col = player1_click1_col;
-										
-										selected=1;
-									}else{
+
+										selected = 1;
+									} else {
 										tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.TRANSPARENT);
 										tableLayout.get(player1_prev_click2_row).get(player1_prev_click2_col).setBackgroundColor(Color.TRANSPARENT);
-										
+
 										player1_prev_click1_row = player1_click1_row;
 										player1_prev_click1_col = player1_click1_col;
-										
-										selected=1;
+
+										selected = 1;
 									}
-								}else{
-									
+								} else {
+
 									player1_prev_click1_row = player1_click1_row;
 									player1_prev_click1_col = player1_click1_col;
 								}
-								
-								
-								
+
 							} else if (player1_click2_row < 0) {
 								player1_click2_row = frow;
 								player1_click2_col = fcol;
@@ -339,66 +311,61 @@ public class NewSinglePlayerActivity extends Activity {
 								player1_prev_click2_col = player1_click2_col;
 								selected++;
 								flippedCards++;
-								
-								
+
 								// ha az első kártya klikk és a második kártya klikk nem egyezik
 								if (!((player1_click1_row == player1_click2_row) && (player1_click1_col == player1_click2_col))
-										&& game.getTable().getCard(player1_click1_row, player1_click1_col).getAudioRes() == game.getTable().getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
+									&& game.getTable().getCard(player1_click1_row, player1_click1_col).getAudioRes() == game.getTable().getCard(player1_click2_row, player1_click2_col).getAudioRes()) {
 									game.getTable().foundPair(new Pair(currCard.getAudioRes()));
-									tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62,168,62));
-									tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62,168,62));
-									
+									tableLayout.get(player1_click1_row).get(player1_click1_col).setBackgroundColor(Color.rgb(62, 168, 62));
+									tableLayout.get(player1_click2_row).get(player1_click2_col).setBackgroundColor(Color.rgb(62, 168, 62));
+
 									tableLayout.get(player1_click1_row).get(player1_click1_col).startAnimation(animAlpha);
 									tableLayout.get(player1_click2_row).get(player1_click2_col).startAnimation(animAlpha);
-									
+
 									tableLayout.get(player1_click1_row).get(player1_click1_col).setVisibility(View.INVISIBLE);
 									tableLayout.get(player1_click2_row).get(player1_click2_col).setVisibility(View.INVISIBLE);
-									
-									
-				
-									        	
 
 									// megtaláltam az összes párt
-									if (game.getTable().getFoundpairs() == col_count*row_count/2) {
-									
-										AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
-										 LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
-										 View dialogView = inflater.inflate(R.layout.game_finish, null);
-										 dialogBuilder.setView(dialogView);
-										 TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
-										 flippedCard.setText(String.valueOf(flippedCards));
-										 TextView timeData = (TextView) dialogView.findViewById(R.id.timeData);
-										 timeData.setText(tvPlayer1Time.getText().toString());
-										 TextView reachedScoreDataFromGame = (TextView)dialogView.findViewById(R.id.reachedScoreDataFromGameClass);
-										 reachedScoreDataFromGame.setText(String.valueOf(game.getBadPairCounter()));
-										 mp.stop();
-										 myTimeHandler.removeCallbacks(updateTimerMethod);
-										 
-										 
+									if (game.getTable().getFoundpairs() == col_count * row_count / 2) {
 
-										 dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-										 @Override
-										 public void onClick(DialogInterface dialog, int which) {
-											 /*Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-											 startActivity(intent);*/ 
-											 game.getJsonStr();
-											 dialog.dismiss();
-											 finish();
-										 }
-										 });
-										 final  AlertDialog dialog =  dialogBuilder.create();
-										 dialog.show();
-										 
-										 try {
+										AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewSinglePlayerActivity.this);
+										LayoutInflater inflater = NewSinglePlayerActivity.this.getLayoutInflater();
+										View dialogView = inflater.inflate(R.layout.game_finish, null);
+										dialogBuilder.setView(dialogView);
+										TextView flippedCard = (TextView) dialogView.findViewById(R.id.flippedcard);
+										flippedCard.setText(String.valueOf(flippedCards));
+										TextView timeData = (TextView) dialogView.findViewById(R.id.timeData);
+										timeData.setText(tvPlayer1Time.getText().toString());
+										TextView reachedScoreDataFromGame = (TextView) dialogView.findViewById(R.id.reachedScoreDataFromGameClass);
+										reachedScoreDataFromGame.setText(String.valueOf(game.getBadPairCounter()));
+										mp.stop();
+										myTimeHandler.removeCallbacks(updateTimerMethod);
+
+										dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												/*
+												 * Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+												 * startActivity(intent);
+												 */
+												game.getJsonStr();
+												dialog.dismiss();
+												finish();
+											}
+										});
+										final AlertDialog dialog = dialogBuilder.create();
+										dialog.show();
+
+										try {
 											dm.saveGame(game);
 										} catch (SQLException e) {
 											e.printStackTrace();
 										}
 									}
-								}else{
-								tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
-								tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
-								
+								} else {
+									tableLayout.get(frow).get(fcol).setBackgroundColor(Color.rgb(192, 64, 64));
+									tableLayout.get(player1_prev_click1_row).get(player1_prev_click1_col).setBackgroundColor(Color.rgb(192, 64, 64));
+
 								}
 								player1_click1_row = -1;
 								player1_click1_col = -1;
@@ -424,16 +391,18 @@ public class NewSinglePlayerActivity extends Activity {
 		}
 		/*
 		 * ArrayList<LinearLayout> rows = new ArrayList<LinearLayout>(); ArrayList<RelativeLayout> cells = new ArrayList<RelativeLayout>(); final ViewGroup rootView = (ViewGroup) ((ViewGroup)
-		 * this.findViewById(android.R.id.content)).getChildAt(0); for (int i = 0; i < row_count; i++) { final int i2 = i; LinearLayout row = (LinearLayout) rootView.getChildAt(i); rows.add(row); for (int k = 0; k < col_count; k++) { final
+		 * this.findViewById(android.R.id.content)).getChildAt(0); for (int i = 0; i < row_count; i++) { final int i2 = i; LinearLayout row = (LinearLayout) rootView.getChildAt(i); rows.add(row); for
+		 * (int k = 0; k < col_count; k++) { final
 		 * int k2 = k; RelativeLayout cell = (RelativeLayout) row.getChildAt(k); /* cell.setOnClickListener(new OnClickListener() {
 		 * @Override public void onClick(View v) { playSound(i2, k2); } });
 		 */
 		/*
 		 * cell.setOnTouchListener(new OnTouchListener() {
-		 * @Override public boolean onTouch(View v, MotionEvent event) { switch (event.getAction()) { case MotionEvent.ACTION_DOWN: v.setBackgroundColor(Color.argb(255, 192, 64, 64)); playSound(i2, k2); break; case MotionEvent.ACTION_UP:
+		 * @Override public boolean onTouch(View v, MotionEvent event) { switch (event.getAction()) { case MotionEvent.ACTION_DOWN: v.setBackgroundColor(Color.argb(255, 192, 64, 64)); playSound(i2, k2);
+		 * break; case MotionEvent.ACTION_UP:
 		 * v.setBackgroundColor(Color.argb(0, 0, 0, 0)); stopSound(); break; } return true; } }); cells.add(cell); } }
 		 */
-		
+
 		ivPlayPause.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -451,7 +420,7 @@ public class NewSinglePlayerActivity extends Activity {
 						dialog.dismiss();
 						startTime = SystemClock.uptimeMillis();
 						myTimeHandler.postDelayed(updateTimerMethod, 1000);
-						
+
 					}
 				});
 				final AlertDialog dialog = dialogBuilder.create();
@@ -508,7 +477,7 @@ public class NewSinglePlayerActivity extends Activity {
 		float maxvolume = 1.0f; // 100% hangerő
 		leftVolume *= maxvolume;
 		rightVolume *= maxvolume;
-		
+
 		mp.setVolume(leftVolume, rightVolume);
 		mp.setOnCompletionListener(new OnCompletionListener() {
 			@Override
@@ -526,26 +495,25 @@ public class NewSinglePlayerActivity extends Activity {
 			mp = null;
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		stopSound();
 		super.onBackPressed();
 	}
-	
-private Runnable updateTimerMethod = new Runnable() {
-		
-		@Override
-		public void run() {
-			timeInMillies = SystemClock.uptimeMillis()-startTime;
-			finalTime = timeSwap+timeInMillies;
-			int seconds = (int)(finalTime/1000);
-			int minutes = seconds/60;
-			
-			
-			tvPlayer1Time.setText(""+String.format("%02d",minutes)+":"+String.format("%02d", (seconds%60)));
-			myTimeHandler.postDelayed(this, 1000);
-			
-		}
-	};
+
+	private Runnable	updateTimerMethod	= new Runnable() {
+
+														@Override
+														public void run() {
+															timeInMillies = SystemClock.uptimeMillis() - startTime;
+															finalTime = timeSwap + timeInMillies;
+															int seconds = (int) (finalTime / 1000);
+															int minutes = seconds / 60;
+
+															tvPlayer1Time.setText("" + String.format("%02d", minutes) + ":" + String.format("%02d", (seconds % 60)));
+															myTimeHandler.postDelayed(this, 1000);
+
+														}
+													};
 }

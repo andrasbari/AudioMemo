@@ -3,8 +3,6 @@ package net.bandesz.auditorymemorygame.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,32 +16,32 @@ public class Card implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5574053712464115196L;
-	public static final String TABLE_NAME = "cards";
-	public static final String FIELD_ID = "id";
-	public static final String FIELD_AUDIO_RES = "audio_res";
-	public static final String FIELD_SHOW_COUNT = "show_count";
-	public static final String FIELD_POSITION_ROW = "position_row";
-	public static final String FIELD_POSITION_COL = "position_col";
-	public static final String FIELD_SHOWN = "shown";
+	private static final long	serialVersionUID		= 5574053712464115196L;
+	public static final String	TABLE_NAME				= "cards";
+	public static final String	FIELD_ID					= "id";
+	public static final String	FIELD_AUDIO_RES		= "audio_res";
+	public static final String	FIELD_SHOW_COUNT		= "show_count";
+	public static final String	FIELD_POSITION_ROW	= "position_row";
+	public static final String	FIELD_POSITION_COL	= "position_col";
+	public static final String	FIELD_SHOWN				= "shown";
 
 	@DatabaseField(columnName = FIELD_ID, generatedId = true)
-	private int id = 0;
+	private int						id							= 0;
 	// a res/raw mappában lévő hangfájl azonosító száma
 	@DatabaseField(columnName = FIELD_AUDIO_RES, index = true)
-	private int audio_res = 0;
+	private int						audio_res				= 0;
 	// felfordítási szám
 	@DatabaseField(columnName = FIELD_SHOW_COUNT)
-	private int show_count = 0;
+	private int						show_count				= 0;
 	// kártya pozíciója a táblán
 	@DatabaseField(columnName = FIELD_POSITION_ROW)
-	private int position_row = 0;
+	private int						position_row			= 0;
 	@DatabaseField(columnName = FIELD_POSITION_COL)
-	private int position_col = 0;
+	private int						position_col			= 0;
 	@DatabaseField(columnName = FIELD_SHOWN, dataType = DataType.SERIALIZABLE)
-	private ArrayList<Date> shown = new ArrayList<Date>();
+	private ArrayList<Date>		shown						= new ArrayList<Date>();
 	@DatabaseField(foreign = true)
-	private Table table = null;
+	private Table					table						= null;
 
 	public Card() {
 
@@ -118,7 +116,7 @@ public class Card implements Serializable {
 	public void setTable(Table table) {
 		this.table = table;
 	}
-	
+
 	public JSONObject getJsonObj() {
 		JSONObject jsonObj = null;
 		JSONArray jsonArr = null;

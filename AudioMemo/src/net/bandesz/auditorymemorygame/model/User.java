@@ -6,42 +6,43 @@ import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * felhasználók elmentése, hogy nekelljen mindig kitölteni a játékos adatokat
+ * 
  * @author bandesz
  *
  */
 @DatabaseTable(tableName = User.TABLE_NAME)
 public class User implements Serializable {
-	private static final long serialVersionUID = 1543607649271615534L;
-	public static final String TABLE_NAME = "users";
-	public static final String FIELD_ID = "id";
-	public static final String FIELD_NAME = "name";
-	public static final String FIELD_PW = "pw";
-	public static final String FIELD_BIRTH_YEAR = "birth_year";
-	public static final String FIELD_GENDER = "gender";
-	public static final String FIELD_DGUID = "dguid"; 
+	private static final long	serialVersionUID	= 1543607649271615534L;
+	public static final String	TABLE_NAME			= "users";
+	public static final String	FIELD_ID				= "id";
+	public static final String	FIELD_NAME			= "name";
+	public static final String	FIELD_PW				= "pw";
+	public static final String	FIELD_BIRTH_YEAR	= "birth_year";
+	public static final String	FIELD_GENDER		= "gender";
+	public static final String	FIELD_DGUID			= "dguid";
 
-	public static final int GENDER_SECRET = 0;
-	public static final int GENDER_MALE = 1;
-	public static final int GENDER_FEMALE = 2;
+	public static final int		GENDER_SECRET		= 0;
+	public static final int		GENDER_MALE			= 1;
+	public static final int		GENDER_FEMALE		= 2;
 
 	@DatabaseField(columnName = FIELD_ID, generatedId = true)
-	private int id = 0;
+	private int						id						= 0;
 	@DatabaseField(columnName = FIELD_NAME, index = true)
-	private String name;
+	private String					name;
 	@DatabaseField(columnName = FIELD_PW, index = true)
-	private String pw;
+	private String					pw;
 	@DatabaseField(columnName = FIELD_BIRTH_YEAR, index = true)
-	private int birth_year;
+	private int						birth_year;
 	@DatabaseField(columnName = FIELD_GENDER, index = true)
-	private int gender = GENDER_SECRET;
+	private int						gender				= GENDER_SECRET;
 	@DatabaseField(columnName = FIELD_DGUID, unique = true)
-	private String dguid = null;
-	
-	public User(){
+	private String					dguid					= null;
+
+	public User() {
 		// needed by ormLite
 	};
-	
-	public User(String name,int gender,int birthYear){
+
+	public User(String name, int gender, int birthYear) {
 		this.name = name;
 		this.gender = gender;
 		this.birth_year = birthYear;

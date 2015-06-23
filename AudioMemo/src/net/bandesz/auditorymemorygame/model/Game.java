@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import net.bandesz.auditorymemorygame.DataManager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,45 +27,46 @@ public class Game implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1869553443141769390L;
-	public static final String TABLE_NAME = "games";
-	public static final String FIELD_ID = "id";
-	public static final String FIELD_LEVEL = "level";
-	public static final String FIELD_PLAYER_COUNT = "player_count";
+	private static final long	serialVersionUID			= -1869553443141769390L;
+	public static final String	TABLE_NAME					= "games";
+	public static final String	FIELD_ID						= "id";
+	public static final String	FIELD_LEVEL					= "level";
+	public static final String	FIELD_PLAYER_COUNT		= "player_count";
 
 	@DatabaseField(columnName = FIELD_ID, generatedId = true)
-	private int id = 0;
+	private int						id								= 0;
 	@DatabaseField(columnName = FIELD_LEVEL)
-	private int level = 0;
+	private int						level							= 0;
 	@DatabaseField(columnName = FIELD_PLAYER_COUNT)
-	private int player_count = 0;
+	private int						player_count				= 0;
 	@DatabaseField(foreign = true)
-	private Table table = null;
+	private Table					table							= null;
 	@ForeignCollectionField(eager = true, maxEagerLevel = 10)
-	private Collection<Player> players = new ArrayList<Player>();
+	private Collection<Player>	players						= new ArrayList<Player>();
 
-	private int click1_row = -1;
-	private int click1_col = -1;
-	private int click2_row = -1;
-	private int click2_col = -1;
+	private int						click1_row					= -1;
+	private int						click1_col					= -1;
+	private int						click2_row					= -1;
+	private int						click2_col					= -1;
 
-	int col_count = 0;
-	int row_count = 0;
-	private Card current_card = null;
-	private int current_player_number = 0;
-	private int current_round = 0;
-	private int shown_cards = 0;
-	private int badPairCounter=0;
+	int								col_count					= 0;
+	int								row_count					= 0;
+	private Card					current_card				= null;
+	private int						current_player_number	= 0;
+	private int						current_round				= 0;
+	private int						shown_cards					= 0;
+	private int						badPairCounter				= 0;
 
 	public Game() {
 
 	}
-	
+
 	/**
 	 * a megadott usaerek adatait átmásoljuk ugyanannyi darab player objektumba, amiket mentünk a játékhoz
+	 * 
 	 * @param level
 	 * @param users
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public Game(int level, ArrayList<User> users) throws Exception {
 		this.level = level;
@@ -77,14 +80,12 @@ public class Game implements Serializable {
 			player.cloneUser(user);
 			players.add(player);
 		}
-		
+
 		table = new Table(level);
 
 		row_count = table.getHeight();
 		col_count = table.getWidth();
 	}
-	
-	
 
 	public Game(int level, int player_count) throws Exception {
 		this.level = level;
@@ -108,12 +109,12 @@ public class Game implements Serializable {
 				showCard(row, col);
 				click1_row = row;
 				click1_col = col;
-				
+
 				return true;
 			} // ha második fordítás történik
 			else if (click2_row < 0 && click2_col < 0) {
 				// ha a második kártya ugyanaz mint az első kártya akkor nem csinál semmit sem!
-				if ( row == click1_row && col == click1_col) {
+				if (row == click1_row && col == click1_col) {
 					return false;
 				} else {
 					// mázli faktor detektor
@@ -124,25 +125,25 @@ public class Game implements Serializable {
 							e.printStackTrace();
 						}
 					}
-					
+
 					showCard(row, col);
 					click2_row = row;
 					click2_col = col;
-					
-					//ha megtalálta a párt
+
+					// ha megtalálta a párt
 					if (table.getCard(click1_row, click1_col).getAudioRes() == table.getCard(click2_row, click2_col).getAudioRes()) {
 						table.foundPair(table.getCard(click1_row, click1_col).getAudioRes());
 					} else {
-						//ha nem talált párt megnézzük hogy rossz párnak minősül e, azaz egy pár mind2 része szolt már mégsem azt találta meg
+						// ha nem talált párt megnézzük hogy rossz párnak minősül e, azaz egy pár mind2 része szolt már mégsem azt találta meg
 						isBadPair(click1_row, click1_col, row, col);
-						
+
 					}
 
 					click1_row = -1;
 					click1_col = -1;
 					click2_row = -1;
 					click2_col = -1;
-					
+
 					return true;
 				}
 			} else {
@@ -150,20 +151,21 @@ public class Game implements Serializable {
 				click1_col = -1;
 				click2_row = -1;
 				click2_col = -1;
-				
+
 				return false;
 			}
 		} else {
 			return false;
-		}		
+		}
 	}
 
 	public void playSound(int row, int col, int audio_res) {
 
 	}
-	
+
 	/**
 	 * Ellenőrzi hogy mázli vagy sem, mázli ha még egyszer sem volt felfordítva kártya de már megtalálta a párját. Viszont olyan kártyára nem szabad mázlit alkalmazni amit már egyszer meghalgatott!
+	 * 
 	 * @param row1
 	 * @param col1
 	 * @param row2
@@ -182,14 +184,14 @@ public class Game implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean isPair(int row1, int col1, int row2, int col2) {
 		return table.getCard(row1, col1).getAudioRes() == table.getCard(row2, col2).getAudioRes();
 	}
 
 	public void showCard(int row, int col) {
 		current_card = table.getCard(row, col);
-		//playSound(row, col, current_card.getAudioRes());
+		// playSound(row, col, current_card.getAudioRes());
 		current_card.show();
 		shown_cards++;
 		if (shown_cards % 2 == 0) {
@@ -200,28 +202,27 @@ public class Game implements Serializable {
 	public void foundPair(int audio_res) {
 
 	}
-	
-	public void isBadPair(int row1, int col1, int row2, int col2){
+
+	public void isBadPair(int row1, int col1, int row2, int col2) {
 		Card card1 = table.getCard(row1, col1);
 		Card card2 = table.getCard(row2, col2);
 		List<Card> cardList = table.getCards();
-		Boolean badPair=false;
-		
-			for(Card card : cardList){
-				if((card1.getAudioRes()==card.getAudioRes()) && (card1.getPositionCol()!=card.getPositionCol() || card1.getPositionRow()!=card.getPositionRow()) && card.getShowCount()>0  ){
-					badPair=true;
-					
-				}
-				
+		Boolean badPair = false;
+
+		for (Card card : cardList) {
+			if ((card1.getAudioRes() == card.getAudioRes()) && (card1.getPositionCol() != card.getPositionCol() || card1.getPositionRow() != card.getPositionRow()) && card.getShowCount() > 0) {
+				badPair = true;
+
 			}
-		
-		
-			if(badPair){
-				badPairCounter++;
-			}
-		
+
+		}
+
+		if (badPair) {
+			badPairCounter++;
+		}
+
 	}
-	
+
 	public int getBadPairCounter() {
 		return badPairCounter;
 	}
@@ -252,7 +253,7 @@ public class Game implements Serializable {
 	}
 
 	public ArrayList<Player> getPlayers() {
-		return (ArrayList<Player>)players;
+		return (ArrayList<Player>) players;
 	}
 
 	public Table getTable() {
@@ -262,7 +263,7 @@ public class Game implements Serializable {
 	public Card getCurrent_card() {
 		return current_card;
 	}
-	
+
 	public String getJsonStr() {
 		JSONObject jsonObj = null;
 		JSONArray jsonArr = null;
@@ -284,17 +285,17 @@ public class Game implements Serializable {
 		}
 		String json = jsonObj.toString();
 		Log.d("json", json);
-		
+
 		try {
 			FileOutputStream outputStream;
 			File file = new File(DataManager.getContext().getExternalFilesDir("games"), new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".json");
-			 outputStream = new FileOutputStream(file);
-			  outputStream.write(json.getBytes());
-			  outputStream.close();
+			outputStream = new FileOutputStream(file);
+			outputStream.write(json.getBytes());
+			outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return json;
 	}
 }

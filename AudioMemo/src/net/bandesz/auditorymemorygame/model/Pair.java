@@ -16,33 +16,33 @@ public class Pair implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6319931442147516982L;
-	public static final String TABLE_NAME = "pairs";
-	public static final String FIELD_ID = "id";
-	public static final String FIELD_AUDIO_RES = "audio_res";
-	public static final String FIELD_CARD1 = "card1";
-	public static final String FIELD_CARD2 = "card2";
-	public static final String FIELD_FOUND = "found";
-	
+	private static final long	serialVersionUID	= 6319931442147516982L;
+	public static final String	TABLE_NAME			= "pairs";
+	public static final String	FIELD_ID				= "id";
+	public static final String	FIELD_AUDIO_RES	= "audio_res";
+	public static final String	FIELD_CARD1			= "card1";
+	public static final String	FIELD_CARD2			= "card2";
+	public static final String	FIELD_FOUND			= "found";
+
 	@DatabaseField(columnName = FIELD_ID, generatedId = true)
-	private int id = 0;
+	private int						id						= 0;
 	@DatabaseField(columnName = FIELD_AUDIO_RES)
-	private int audio_res = 0;
-	@DatabaseField(columnName = FIELD_CARD1, foreign=true)
-	private Card card1;
-	@DatabaseField(columnName = FIELD_CARD2, foreign=true)
-	private Card card2;
+	private int						audio_res			= 0;
+	@DatabaseField(columnName = FIELD_CARD1, foreign = true)
+	private Card					card1;
+	@DatabaseField(columnName = FIELD_CARD2, foreign = true)
+	private Card					card2;
 	@DatabaseField(columnName = FIELD_FOUND)
-	private Date found;
+	private Date					found;
 	@DatabaseField(foreign = true)
-	private Player player;
+	private Player					player;
 	@DatabaseField(foreign = true)
-	private Table table = null;
+	private Table					table					= null;
 
 	public Pair() {
-		
+
 	}
-	
+
 	public Pair(int audio_res) {
 		this.audio_res = audio_res;
 		card1 = new Card(audio_res);
@@ -111,7 +111,7 @@ public class Pair implements Serializable {
 	public void setTable(Table table) {
 		this.table = table;
 	}
-	
+
 	public JSONObject getJsonObj() {
 		JSONObject jsonObj = null;
 		JSONArray jsonArr = null;

@@ -9,7 +9,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 public class MyBackupAgent extends BackupAgent {
-	private static final String TAG = "MyBackupAgent";
+	private static final String	TAG	= "MyBackupAgent";
 
 	@Override
 	public void onBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState) throws IOException {
