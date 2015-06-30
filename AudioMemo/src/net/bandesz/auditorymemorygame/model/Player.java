@@ -38,7 +38,7 @@ public class Player implements Serializable {
 	// megtalált párok
 	@ForeignCollectionField(eager = true, maxEagerLevel = 10)
 	private Collection<Pair>			found_pairs			= new ArrayList<Pair>();
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, index = true)
 	private Game							game;
 
 	// bizonyos kártyát hányszor fordított fel

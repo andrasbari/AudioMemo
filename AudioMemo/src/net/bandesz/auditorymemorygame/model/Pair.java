@@ -34,9 +34,9 @@ public class Pair implements Serializable {
 	private Card					card2;
 	@DatabaseField(columnName = FIELD_FOUND)
 	private Date					found;
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, index = true)
 	private Player					player;
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, index = true)
 	private Table					table					= null;
 
 	public Pair() {

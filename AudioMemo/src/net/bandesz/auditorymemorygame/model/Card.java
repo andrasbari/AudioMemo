@@ -40,7 +40,7 @@ public class Card implements Serializable {
 	private int						position_col			= 0;
 	@DatabaseField(columnName = FIELD_SHOWN, dataType = DataType.SERIALIZABLE)
 	private ArrayList<Date>		shown						= new ArrayList<Date>();
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, index = true)
 	private Table					table						= null;
 
 	public Card() {

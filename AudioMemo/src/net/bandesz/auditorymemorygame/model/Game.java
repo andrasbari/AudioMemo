@@ -39,7 +39,7 @@ public class Game implements Serializable {
 	private int						level							= 0;
 	@DatabaseField(columnName = FIELD_PLAYER_COUNT)
 	private int						player_count				= 0;
-	@DatabaseField(foreign = true)
+	@DatabaseField(foreign = true, index = true)
 	private Table					table							= null;
 	@ForeignCollectionField(eager = true, maxEagerLevel = 10)
 	private Collection<Player>	players						= new ArrayList<Player>();
